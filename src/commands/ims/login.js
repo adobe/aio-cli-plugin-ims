@@ -10,7 +10,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { flags } = require('@oclif/command')
 const ImsBaseCommand = require('../../ims-base-command')
 const { getToken } = require('../../token-utils')
 const { Ims } = require('@adobe/aio-cli-ims')
@@ -18,21 +17,21 @@ const debug = require('debug')('@adobe/aio-cli-plugin-ims/login');
 
 class LoginCommand extends ImsBaseCommand {
   async run() {
-    const { args, flags } = this.parse(LoginCommand)
+    const { flags } = this.parse(LoginCommand)
 
-    const contextData = this.getContext(args.ctx);
+    const { name: ctx, data: contextData } = this.getContext(flags.ctx);
     debug("LoginCommand:contextData - %O", contextData);
 
     if (!contextData) {
-      this.error(`IMS context '${args.ctx || this.currentContext}' is not configured`, { exit: 1});
+      this.error(`IMS context '${ctx}' is not configured`, { exit: 1});
     }
 
     try {
       const token = await this._getOrCreateToken(contextData)
-          .then(result => this._persistTokens(args.ctx, contextData, result));
+          .then(result => this._persistTokens(ctx, contextData, result));
       this.printObject(token);
     } catch (err) {
-      this.error(`Cannot get token for context '${args.ctx || this.currentContext}': ${err.message}`, { exit: 1 });
+      this.error(`Cannot get token for context '${ctx}': ${err.message}`, { exit: 1 });
       this.debug(err.stack);
     }
   }

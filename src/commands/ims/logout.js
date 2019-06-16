@@ -18,13 +18,13 @@ const debug = require('debug')('@adobe/aio-cli-plugin-ims/logout');
 
 class LogoutCommand extends ImsBaseCommand {
   async run() {
-    const { args, flags } = this.parse(LogoutCommand)
+    const { flags } = this.parse(LogoutCommand)
 
-    const contextData = this.getContext(args.ctx);
+    const { name: ctx, data: contextData } = this.getContext(flags.ctx);
     debug("LogoutCommand:contextData - %O", contextData);
 
     if (!contextData) {
-      this.error(`IMS context '${args.ctx || this.currentContext}' is not configured`, { exit: 1 });
+      this.error(`IMS context '${ctx}' is not configured`, { exit: 1 });
     }
 
     try {
@@ -45,7 +45,7 @@ class LogoutCommand extends ImsBaseCommand {
           if (flags.force) {
             delete contextData[ACCESS_TOKEN];
           }
-          this.setContext(args.ctx, contextData)
+          this.setContext(ctx, contextData)
         },
           err => debug(err))
     } catch (err) {

@@ -15,7 +15,7 @@ const ImsBaseCommand = require('../../ims-base-command')
 
 class CtxCommand extends ImsBaseCommand {
   async run() {
-    const { args, flags } = this.parse(CtxCommand);
+    const { flags } = this.parse(CtxCommand);
 
     /**
      * What do I want to do ?
@@ -29,9 +29,9 @@ class CtxCommand extends ImsBaseCommand {
     if (flags.list) {
       this.printObject(this.contexts);
     } else if (flags.val) {
-      this.printObject(this.getContext(args.ctx));
+      this.printObject(this.getContext(flags.ctx));
     } else if (flags.set) {
-      this.printObject(this.currentContext = args.ctx);
+      this.printObject(this.currentContext = flags.set);
     } else {
       this.printObject(this.currentContext);
     }
@@ -58,8 +58,8 @@ must not be used as an IMS context name.
 CtxCommand.flags = {
   ...ImsBaseCommand.flags,
   list: flags.boolean({ description: 'Names of the IMS contexts as an array', exclusive: ['val','set'], multiple:false }),
-  set: flags.boolean({ char: 's', description: 'Sets the name of the current IMS context', exclusive: ['list','val'], multiple:false })
   val: flags.boolean({ description: 'Prints named or current IMS context data', exclusive: ['list','set'], multiple:false }),
+  set: flags.string({ char: 's', description: 'Sets the name of the current IMS context', exclusive: ['list','val','ctx'], multiple:false })
 }
 
 CtxCommand.args = [

@@ -22,7 +22,7 @@ class IndexCommand extends Command {
 
 IndexCommand.description = `IMS commands to login and logout.
 
-The main commands a ims:login to get or create an access token and
+The main commands are ims:login to get or create an access token and
 ims:logout to invalidate an access token and thus log out from IMS.
 
 Logging in and out is based on configuration of which there may be

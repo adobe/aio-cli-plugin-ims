@@ -11,12 +11,12 @@ governing permissions and limitations under the License.
 */
 
 const { flags } = require('@oclif/command')
-const BaseImsCommand = require('../../base-ims-command')
+const ImsBaseCommand = require('../../ims-base-command')
 const { getToken } = require('../../token-utils')
 const { Ims, ACCESS_TOKEN, REFRESH_TOKEN } = require('@adobe/aio-cli-ims')
 const debug = require('debug')('@adobe/aio-cli-plugin-ims/logout');
 
-class LogoutCommand extends BaseImsCommand {
+class LogoutCommand extends ImsBaseCommand {
   async run() {
     const { args, flags } = this.parse(LogoutCommand)
 
@@ -64,7 +64,7 @@ command will just do nothing.
 `
 
 LogoutCommand.flags = {
-  ...BaseImsCommand.flags,
+  ...ImsBaseCommand.flags,
   force: flags.boolean({
     char: 'f', description: `Invalidate the refresh token as well as all access tokens.
 Otherwise only the access token is invalidated. For IMS
@@ -73,7 +73,7 @@ effect.` })
 }
 
 LogoutCommand.args = [
-  ...BaseImsCommand.args
+  ...ImsBaseCommand.args
 ]
 
 module.exports = LogoutCommand

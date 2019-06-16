@@ -16,7 +16,7 @@ const hjson = require('hjson')
 const yaml = require('js-yaml')
 const debug = require('debug')
 
-class BaseImsCommand extends Command {
+class ImsBaseCommand extends Command {
 
   async init () {
     const { flags } = this.parse(this.constructor)
@@ -56,11 +56,14 @@ class BaseImsCommand extends Command {
       context = this.currentContext;
     }
     if (context) {
-      return this.cliConfig.get(`$ims.${context}`);
+      return {
+          name: context,
+          data: this.cliConfig.get(`$ims.${context}`)
+      };
     }
 
     // missing context and no current context
-    return undefined;
+    return { name: context, data: undefined };
   }
 
   async setContext(context, contextData) {
@@ -108,17 +111,17 @@ class BaseImsCommand extends Command {
   }
 }
 
-BaseImsCommand.flags = {
+ImsBaseCommand.flags = {
   debug: flags.string({ description: 'Debug level output' }),
   verbose: flags.boolean({ char: 'v', description: 'Verbose output' }),
   local: flags.boolean({ char: 'l', description: 'local config', exclusive: ['global'] }),
   global: flags.boolean({ char: 'g', description: 'global config', exclusive: ['local'] }),
   json: flags.boolean({ char: 'j', hidden: true, exclusive: ['yaml'] }),
-  yaml: flags.boolean({ char: 'y', hidden: true, exclusive: ['json'] })
+  yaml: flags.boolean({ char: 'y', hidden: true, exclusive: ['json'] }),
+  ctx: flags.string({ char: 'c', description: ' Name of the IMS context to use. Default is the current IMS context', multiple: false }),
 }
 
-BaseImsCommand.args = [
-  { name: 'ctx', required: false, description: "Name of the IMS context to use. Default is the current IMS context." }
+ImsBaseCommand.args = [
 ]
 
-module.exports = BaseImsCommand
+module.exports = ImsBaseCommand

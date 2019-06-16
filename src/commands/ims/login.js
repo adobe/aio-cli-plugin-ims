@@ -11,12 +11,12 @@ governing permissions and limitations under the License.
 */
 
 const { flags } = require('@oclif/command')
-const BaseImsCommand = require('../../base-ims-command')
+const ImsBaseCommand = require('../../ims-base-command')
 const { getToken } = require('../../token-utils')
 const { Ims } = require('@adobe/aio-cli-ims')
 const debug = require('debug')('@adobe/aio-cli-plugin-ims/login');
 
-class LoginCommand extends BaseImsCommand {
+class LoginCommand extends ImsBaseCommand {
   async run() {
     const { args, flags } = this.parse(LoginCommand)
 
@@ -117,11 +117,11 @@ The currently supported IMS login plugins are:
 `
 
 LoginCommand.flags = {
-  ...BaseImsCommand.flags
+  ...ImsBaseCommand.flags
 }
 
 LoginCommand.args = [
-  ...BaseImsCommand.args
+  ...ImsBaseCommand.args
 ]
 
 module.exports = LoginCommand

@@ -11,9 +11,9 @@ governing permissions and limitations under the License.
 */
 
 const { flags } = require('@oclif/command')
-const BaseImsCommand = require('../../base-ims-command')
+const ImsBaseCommand = require('../../ims-base-command')
 
-class CtxCommand extends BaseImsCommand {
+class CtxCommand extends ImsBaseCommand {
   async run() {
     const { args, flags } = this.parse(CtxCommand);
 
@@ -56,14 +56,14 @@ must not be used as an IMS context name.
 `
 
 CtxCommand.flags = {
-  ...BaseImsCommand.flags,
+  ...ImsBaseCommand.flags,
   list: flags.boolean({ description: 'Names of the IMS contexts as an array', exclusive: ['val','set'], multiple:false }),
   val: flags.boolean({ char: 'v', description: 'Prints named or current IMS context data', exclusive: ['list','set'], multiple:false }),
   set: flags.boolean({ char: 's', description: 'Sets the name of the current IMS context', exclusive: ['list','val'], multiple:false })
 }
 
 CtxCommand.args = [
-  ...BaseImsCommand.args
+  ...ImsBaseCommand.args
 ]
 
 module.exports = CtxCommand

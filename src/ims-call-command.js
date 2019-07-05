@@ -12,8 +12,6 @@ governing permissions and limitations under the License.
 
 const { flags } = require('@oclif/command')
 const ImsBaseCommand = require('./ims-base-command')
-const { getToken } = require('./token-utils')
-const { Ims, ACCESS_TOKEN } = require('@adobe/aio-cli-ims')
 const debug = require('debug')('@adobe/aio-cli-plugin-ims/ims-call-command');
 
 class ImsCallCommand extends ImsBaseCommand {
@@ -24,13 +22,6 @@ class ImsCallCommand extends ImsBaseCommand {
 
     async run() {
         const { args, flags } = this.parse(ImsCallCommand);
-
-        const { name: ctx, data: contextData } = this.getContext(flags.ctx);
-        debug("ImsCallCommand:contextData - %O", contextData);
-
-        if (!contextData) {
-            this.error(`IMS context '${ctx}' is not configured`, { exit: 1 });
-        }
 
         if (!args.api || !args.api.startsWith("/ims/")) {
             this.error(`Invalid IMS API '${args.api}' - must start with '/ims/'`, { exit: 1 });
@@ -47,10 +38,11 @@ class ImsCallCommand extends ImsBaseCommand {
         debug("API    : %s", args.api);
         debug("Params : %o", data);
 
+        const { Ims, getToken } = require('@adobe/adobeio-cna-core-ims');
         try {
-            const ims = new Ims(contextData.env);
-            await getToken(contextData[ACCESS_TOKEN])
-                .then(token => this.call(ims, args.api, token, data))
+            await getToken(flags.ctx)
+                .then(token => Ims.fromToken(token))
+                .then(tokenIms => this.call(tokenIms.ims, args.api, tokenIms.token, data))
                 .then(result => this.printObject(result))
         } catch (err) {
             debug("error: %o", err);

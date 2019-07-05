@@ -11,7 +11,6 @@ governing permissions and limitations under the License.
 */
 
 const { Command, flags } = require('@oclif/command')
-const Config = require('@adobe/aio-cli-config/src/Config')
 const hjson = require('hjson')
 const yaml = require('js-yaml')
 const debug = require('debug')
@@ -30,53 +29,10 @@ class ImsBaseCommand extends Command {
     }
   }
 
-  get cliConfig() {
-    if (!this._config) {
-      this._config = new Config()
-      this._config.reload()
+
+
+
     }
-    return this._config
-  }
-
-  get contexts() {
-    return Object.keys(this.cliConfig.get('$ims')).filter(x => !x.startsWith('$'));
-  }
-
-  get currentContext() {
-    return this.cliConfig.get('$ims.$current');
-  }
-
-  set currentContext(newContext) {
-    const { flags } = this.parse(this.constructor);
-    this.cliConfig.set('$ims.$current', newContext, !!flags.local);
-  }
-
-  getContext(context) {
-    if (!context) {
-      context = this.currentContext;
-    }
-    if (context) {
-      return {
-          name: context,
-          data: this.cliConfig.get(`$ims.${context}`)
-      };
-    }
-
-    // missing context and no current context
-    return { name: context, data: undefined };
-  }
-
-  async setContext(context, contextData) {
-    if (!context) {
-      context = this.currentContext;
-    }
-    if (context) {
-      const { flags } = this.parse(this.constructor);
-      return this.cliConfig.set(`$ims.${context}`, contextData, !!flags.local);
-    }
-
-    Promise.reject("Missing IMS context label to set context data for");
-  }
 
   printObject(obj) {
     const { flags } = this.parse(this.constructor)

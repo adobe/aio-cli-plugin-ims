@@ -12,46 +12,21 @@ governing permissions and limitations under the License.
 
 const { flags } = require('@oclif/command')
 const ImsBaseCommand = require('../../ims-base-command')
-const { getToken } = require('../../token-utils')
-const { Ims, ACCESS_TOKEN, REFRESH_TOKEN } = require('@adobe/aio-cli-ims')
 const debug = require('debug')('@adobe/aio-cli-plugin-ims/logout');
 
 class LogoutCommand extends ImsBaseCommand {
-  async run() {
-    const { flags } = this.parse(LogoutCommand)
+    async run() {
+        const { flags } = this.parse(LogoutCommand)
 
-    const { name: ctx, data: contextData } = this.getContext(flags.ctx);
-    debug("LogoutCommand:contextData - %O", contextData);
-
-    if (!contextData) {
-      this.error(`IMS context '${ctx}' is not configured`, { exit: 1 });
+        const { invalidateToken, context } = require('@adobe/adobeio-cna-core-ims');
+        try {
+            await invalidateToken(flags.ctx, flags.force);
+        } catch (err) {
+            const stackTrace = err.stack ? "\n" + err.stack : "";
+            this.debug(`Logout Failure: ${err.message || err}${stackTrace}`);
+            this.error(`Cannot logout context '${flags.ctx || context.current}': ${err.message || err}`, { exit: 1 });
+        }
     }
-
-    try {
-      const ims = new Ims(contextData.env);
-      const tokenLabel = flags.force ? REFRESH_TOKEN : ACCESS_TOKEN;
-      await getToken(contextData[tokenLabel])
-        .catch(err => {
-          if (flags.force) {
-            return getToken(contextData[ACCESS_TOKEN]);
-          } else {
-            this.log(err);
-            return Promise.reject(err);
-          }
-        })
-        .then(token => ims.invalidateToken(token, contextData.client_id, contextData.client_secret))
-        .then(() => {
-          delete contextData[tokenLabel];
-          if (flags.force) {
-            delete contextData[ACCESS_TOKEN];
-          }
-          this.setContext(ctx, contextData)
-        },
-          err => debug(err))
-    } catch (err) {
-      this.error(`Cannot get token for the context: ${err.message}`, { exit: 1 });
-    }
-  }
 }
 
 LogoutCommand.description = `Log out the current or a named IMS context.

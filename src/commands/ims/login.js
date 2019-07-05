@@ -10,8 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const ImsBaseCommand = require('../../ims-base-command')
-const debug = require('debug')('@adobe/aio-cli-plugin-ims/login');
+const ImsBaseCommand = require('../../ims-base-command');
 
 class LoginCommand extends ImsBaseCommand {
 

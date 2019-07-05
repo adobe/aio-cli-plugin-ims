@@ -11,12 +11,11 @@ governing permissions and limitations under the License.
 */
 
 const ImsCallCommand = require('../../ims-call-command')
-const debug = require('debug')('@adobe/aio-cli-plugin-ims/get');
 
 class PostCommand extends ImsCallCommand {
 
     async call(ims, api, token, parameterMap) {
-        debug("call(%s, %s, %o)", api, token, parameterMap);
+        this.debug("call(%s, %s, %o)", api, token, parameterMap);
         return ims.post(api, token, parameterMap);
     }
 

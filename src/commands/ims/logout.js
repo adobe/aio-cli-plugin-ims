@@ -12,7 +12,6 @@ governing permissions and limitations under the License.
 
 const { flags } = require('@oclif/command')
 const ImsBaseCommand = require('../../ims-base-command')
-const debug = require('debug')('@adobe/aio-cli-plugin-ims/logout');
 
 class LogoutCommand extends ImsBaseCommand {
     async run() {

@@ -10,13 +10,12 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { flags } = require('@oclif/command')
-const ImsBaseCommand = require('./ims-base-command')
-const debug = require('debug')('@adobe/aio-cli-plugin-ims/ims-call-command');
+const { flags } = require('@oclif/command');
+const ImsBaseCommand = require('./ims-base-command');
 
 class ImsCallCommand extends ImsBaseCommand {
     async call(ims, api, token, parameterMap) {
-        debug("call(%s, %s, %o)", api, token, parameterMap);
+        this.debug("call(%s, %s, %o)", api, token, parameterMap);
         return Promise.reject(new Error("This function cannot be called directly"));
     }
 
@@ -34,9 +33,9 @@ class ImsCallCommand extends ImsBaseCommand {
             }
         }
 
-        debug("Context: %s", ctx);
-        debug("API    : %s", args.api);
-        debug("Params : %o", data);
+        this.debug("Context: %s", flags.ctx);
+        this.debug("API    : %s", args.api);
+        this.debug("Params : %o", data);
 
         const { Ims, getToken } = require('@adobe/adobeio-cna-core-ims');
         try {
@@ -45,7 +44,7 @@ class ImsCallCommand extends ImsBaseCommand {
                 .then(tokenIms => this.call(tokenIms.ims, args.api, tokenIms.token, data))
                 .then(result => this.printObject(result))
         } catch (err) {
-            debug("error: %o", err);
+            this.debug("error: %o", err);
             let reason;
             if (err.statusCode) {
                 switch (err.statusCode) {

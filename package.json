@@ -1,14 +1,14 @@
 {
-  "name": "aio-cli-plugin-ims",
+  "name": "@adobe/aio-cli-plugin-ims",
   "description": "The IMS plugin to aio supports managing tokens for IMS such as login, logout, and retrieving and using tokens.",
   "version": "0.0.0",
   "author": "Felix Meschberger @fmeschbe",
   "bugs": "https://github.com/fmeschbe/aio-cli-plugin-ims/issues",
   "dependencies": {
-    "@adobe/aio-cli-config": "^1.0.7",
-    "@adobe/aio-cli-ims": "^0.0.0",
+    "@adobe/adobeio-cna-core-ims": "^0.0.0",
     "@oclif/command": "^1.5.13",
-    "@oclif/config": "^1.13.0"
+    "hjson": "^3.1.2",
+    "js-yaml": "^3.13.0"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.22.0",

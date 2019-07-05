@@ -15,11 +15,11 @@ The IMS plugin to aio supports managing tokens for IMS such as login, logout, an
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g aio-cli-plugin-ims
+$ npm install -g @adobe/aio-cli-plugin-ims
 $ aio COMMAND
 running command...
 $ aio (-v|--version|version)
-aio-cli-plugin-ims/0.0.0 darwin-x64 node-v10.15.3
+@adobe/aio-cli-plugin-ims/0.0.0 darwin-x64 node-v10.16.0
 $ aio --help [COMMAND]
 USAGE
   $ aio COMMAND
@@ -29,9 +29,12 @@ USAGE
 # Commands
 <!-- commands -->
 * [`aio ims`](#aio-ims)
-* [`aio ims:ctx [CTX]`](#aio-imsctx-ctx)
-* [`aio ims:login [CTX]`](#aio-imslogin-ctx)
-* [`aio ims:logout [CTX]`](#aio-imslogout-ctx)
+* [`aio ims:ctx`](#aio-imsctx)
+* [`aio ims:get API`](#aio-imsget-api)
+* [`aio ims:login`](#aio-imslogin)
+* [`aio ims:logout`](#aio-imslogout)
+* [`aio ims:plugins [PLUGIN]`](#aio-imsplugins-plugin)
+* [`aio ims:post API`](#aio-imspost-api)
 
 ## `aio ims`
 
@@ -42,7 +45,7 @@ USAGE
   $ aio ims
 
 DESCRIPTION
-  The main commands a ims:login to get or create an access token and
+  The main commands are ims:login to get or create an access token and
   ims:logout to invalidate an access token and thus log out from IMS.
 
   Logging in and out is based on configuration of which there may be
@@ -84,25 +87,23 @@ EXAMPLE
 
 _See code: [src/commands/ims/index.js](https://github.com/fmeschbe/aio-cli-plugin-ims/blob/v0.0.0/src/commands/ims/index.js)_
 
-## `aio ims:ctx [CTX]`
+## `aio ims:ctx`
 
 Manage IMS contexts.
 
 ```
 USAGE
-  $ aio ims:ctx [CTX]
-
-ARGUMENTS
-  CTX  Name of the IMS context to use. Default is the current IMS context.
+  $ aio ims:ctx
 
 OPTIONS
+  -c, --ctx=ctx  Name of the IMS context to use. Default is the current IMS context
   -g, --global   global config
   -l, --local    local config
-  -s, --set      Sets the name of the current IMS context
-  -v, --val      Prints named or current IMS context data
+  -s, --set=set  Sets the name of the current IMS context
   -v, --verbose  Verbose output
   --debug=debug  Debug level output
   --list         Names of the IMS contexts as an array
+  --val          Prints named or current IMS context data
 
 DESCRIPTION
   The following options exist for this command:
@@ -115,24 +116,52 @@ DESCRIPTION
   Currently it is not possible to update the IMS context configuration
   using this command. Use the "aio config" commands for this.
 
-  Please note, that the IMS context label "$current" is reserved and
-  must not be used as an IMS context name.
+  Please note, that the IMS context labels starting with "$" are reserved
+  and cannot be used as an IMS context name.
 ```
 
 _See code: [src/commands/ims/ctx.js](https://github.com/fmeschbe/aio-cli-plugin-ims/blob/v0.0.0/src/commands/ims/ctx.js)_
 
-## `aio ims:login [CTX]`
+## `aio ims:get API`
+
+Call an IMS API using a GET request
+
+```
+USAGE
+  $ aio ims:get API
+
+ARGUMENTS
+  API  The IMS API to call, for example: /ims/profile/v1
+
+OPTIONS
+  -c, --ctx=ctx    Name of the IMS context to use. Default is the current IMS context
+  -d, --data=data  Request parameter in the form of name=value. Repeat for multiple parameters
+  -g, --global     global config
+  -l, --local      local config
+  -v, --verbose    Verbose output
+  --debug=debug    Debug level output
+
+DESCRIPTION
+  This is a raw and low level IMS API call command taking the IMS API
+  path as the first argument and any additional request parameters
+  as optional additional arguments.
+
+  The API result is printed as an object if successful. If the call
+  fails, the error message is returned as an error.
+```
+
+_See code: [src/commands/ims/get.js](https://github.com/fmeschbe/aio-cli-plugin-ims/blob/v0.0.0/src/commands/ims/get.js)_
+
+## `aio ims:login`
 
 Log in with a certain IMS context and returns the access token.
 
 ```
 USAGE
-  $ aio ims:login [CTX]
-
-ARGUMENTS
-  CTX  Name of the IMS context to use. Default is the current IMS context.
+  $ aio ims:login
 
 OPTIONS
+  -c, --ctx=ctx  Name of the IMS context to use. Default is the current IMS context
   -g, --global   global config
   -l, --local    local config
   -v, --verbose  Verbose output
@@ -163,18 +192,17 @@ DESCRIPTION
 
 _See code: [src/commands/ims/login.js](https://github.com/fmeschbe/aio-cli-plugin-ims/blob/v0.0.0/src/commands/ims/login.js)_
 
-## `aio ims:logout [CTX]`
+## `aio ims:logout`
 
 Log out the current or a named IMS context.
 
 ```
 USAGE
-  $ aio ims:logout [CTX]
-
-ARGUMENTS
-  CTX  Name of the IMS context to use. Default is the current IMS context.
+  $ aio ims:logout
 
 OPTIONS
+  -c, --ctx=ctx  Name of the IMS context to use. Default is the current IMS context
+
   -f, --force    Invalidate the refresh token as well as all access tokens.
                  Otherwise only the access token is invalidated. For IMS
                  contexts not supporting refresh tokens, this flag has no
@@ -197,4 +225,65 @@ DESCRIPTION
 ```
 
 _See code: [src/commands/ims/logout.js](https://github.com/fmeschbe/aio-cli-plugin-ims/blob/v0.0.0/src/commands/ims/logout.js)_
+
+## `aio ims:plugins [PLUGIN]`
+
+Manage Create Token Plugins.
+
+```
+USAGE
+  $ aio ims:plugins [PLUGIN]
+
+ARGUMENTS
+  PLUGIN  List of plugins to configure. If not provided, prints the current list instead
+
+OPTIONS
+  -c, --ctx=ctx  Name of the IMS context to use. Default is the current IMS context
+  -f, --force    Force configuring the list of plugins without checking for existence or contract
+  -g, --global   global config
+  -l, --local    local config
+  -v, --verbose  Verbose output
+  --debug=debug  Debug level output
+
+DESCRIPTION
+  The following options exist for this command:
+
+  * Print the current list of token creation plugins
+  * Update the list of token creation plugins
+
+  Note: If provoding a list of plugis to configure, they are not currently
+  checked for existence or implementation of the correct contract.
+```
+
+_See code: [src/commands/ims/plugins.js](https://github.com/fmeschbe/aio-cli-plugin-ims/blob/v0.0.0/src/commands/ims/plugins.js)_
+
+## `aio ims:post API`
+
+Call an IMS API using a POST request
+
+```
+USAGE
+  $ aio ims:post API
+
+ARGUMENTS
+  API  The IMS API to call, for example: /ims/profile/v1
+
+OPTIONS
+  -c, --ctx=ctx    Name of the IMS context to use. Default is the current IMS context
+  -d, --data=data  Request parameter in the form of name=value. Repeat for multiple parameters
+  -g, --global     global config
+  -l, --local      local config
+  -v, --verbose    Verbose output
+  --debug=debug    Debug level output
+
+DESCRIPTION
+  This is a raw and low level IMS API call command taking the IMS API
+  path as the first argument and any additional request parameters
+  as optional additional arguments.
+
+  The API result is printed as an object if successful. If the call
+  fails, the error message is returned as an error.
+```
+
+_See code: [src/commands/ims/post.js](https://github.com/fmeschbe/aio-cli-plugin-ims/blob/v0.0.0/src/commands/ims/post.js)_
 <!-- commandsstop -->

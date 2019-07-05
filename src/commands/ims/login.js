@@ -54,11 +54,11 @@ The currently supported IMS login plugins are:
 `
 
 LoginCommand.flags = {
-  ...ImsBaseCommand.flags
+    ...ImsBaseCommand.flags
 }
 
 LoginCommand.args = [
-  ...ImsBaseCommand.args
+    ...ImsBaseCommand.args
 ]
 
 module.exports = LoginCommand

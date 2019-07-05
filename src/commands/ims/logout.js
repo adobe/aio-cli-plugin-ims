@@ -38,16 +38,16 @@ command will just do nothing.
 `
 
 LogoutCommand.flags = {
-  ...ImsBaseCommand.flags,
-  force: flags.boolean({
-    char: 'f', description: `Invalidate the refresh token as well as all access tokens.
+    ...ImsBaseCommand.flags,
+    force: flags.boolean({
+        char: 'f', description: `Invalidate the refresh token as well as all access tokens.
 Otherwise only the access token is invalidated. For IMS
 contexts not supporting refresh tokens, this flag has no
 effect.` })
 }
 
 LogoutCommand.args = [
-  ...ImsBaseCommand.args
+    ...ImsBaseCommand.args
 ]
 
 module.exports = LogoutCommand

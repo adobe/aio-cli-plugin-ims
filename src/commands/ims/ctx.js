@@ -14,29 +14,29 @@ const { flags } = require('@oclif/command')
 const ImsBaseCommand = require('../../ims-base-command')
 
 class CtxCommand extends ImsBaseCommand {
-  async run() {
-    const { flags } = this.parse(CtxCommand);
+    async run() {
+        const { flags } = this.parse(CtxCommand);
 
-    /**
-     * What do I want to do ?
-     * + list the context names
-     * + read the current context label
-     * + set the current context label
-     * + show context data (current or named)
-     * - set the current context data ???
-     */
+        /**
+         * What do I want to do ?
+         * + list the context names
+         * + read the current context label
+         * + set the current context label
+         * + show context data (current or named)
+         * - set the current context data ???
+         */
 
-    if (flags.list) {
-      this.printObject(this.contexts);
-    } else if (flags.val) {
-      this.printObject(this.getContext(flags.ctx));
-    } else if (flags.set) {
-      this.printObject(this.currentContext = flags.set);
-    } else {
-      this.printObject(this.currentContext);
+        if (flags.list) {
+            this.printObject(context.keys());
+        } else if (flags.val) {
+            this.printObject(context.get(flags.ctx));
+        } else if (flags.set) {
+            context.setCurrent(flags.set, flags.local);
+            this.printObject(context.current);
+        } else {
+            this.printObject(context.current);
+        }
     }
-
-  }
 }
 
 CtxCommand.description = `Manage IMS contexts.
@@ -56,14 +56,14 @@ and cannot be used as an IMS context name.
 `
 
 CtxCommand.flags = {
-  ...ImsBaseCommand.flags,
-  list: flags.boolean({ description: 'Names of the IMS contexts as an array', exclusive: ['val','set'], multiple:false }),
-  val: flags.boolean({ description: 'Prints named or current IMS context data', exclusive: ['list','set'], multiple:false }),
-  set: flags.string({ char: 's', description: 'Sets the name of the current IMS context', exclusive: ['list','val','ctx'], multiple:false })
+    ...ImsBaseCommand.flags,
+    list: flags.boolean({ description: 'Names of the IMS contexts as an array', exclusive: ['val', 'set', 'plugin'], multiple: false }),
+    val: flags.boolean({ description: 'Prints named or current IMS context data', exclusive: ['list', 'set', 'plugin'], multiple: false }),
+    set: flags.string({ char: 's', description: 'Sets the name of the current IMS context', exclusive: ['list', 'val', 'ctx', 'plugin'], multiple: false }),
 }
 
 CtxCommand.args = [
-  ...ImsBaseCommand.args
+    ...ImsBaseCommand.args
 ]
 
 module.exports = CtxCommand

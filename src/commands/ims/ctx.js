@@ -29,7 +29,7 @@ class CtxCommand extends ImsBaseCommand {
         const { context } = require('@adobe/aio-cna-core-ims');
         if (flags.list) {
             this.printObject(context.keys());
-        } else if (flags.val) {
+        } else if (flags.value) {
             this.printObject(context.get(flags.ctx));
         } else if (flags.set) {
             context.setCurrent(flags.set, flags.local);
@@ -58,8 +58,8 @@ and cannot be used as an IMS context name.
 
 CtxCommand.flags = {
     ...ImsBaseCommand.flags,
-    list: flags.boolean({ description: 'Names of the IMS contexts as an array', exclusive: ['val', 'set', 'plugin'], multiple: false }),
-    val: flags.boolean({ description: 'Prints named or current IMS context data', exclusive: ['list', 'set', 'plugin'], multiple: false }),
+    list: flags.boolean({ description: 'Names of the IMS contexts as an array', exclusive: ['value', 'set', 'plugin'], multiple: false }),
+    value: flags.boolean({ description: 'Prints named or current IMS context data', exclusive: ['list', 'set', 'plugin'], multiple: false }),
     set: flags.string({ char: 's', description: 'Sets the name of the current IMS context', exclusive: ['list', 'val', 'ctx', 'plugin'], multiple: false }),
 }
 

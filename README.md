@@ -9,9 +9,59 @@ The IMS plugin to aio supports managing tokens for IMS such as login, logout, an
 [![License](https://img.shields.io/npm/l/aio-cli-plugin-ims.svg)](https://github.com/adobe/aio-cli-plugin-ims/blob/master/package.json)
 
 <!-- toc -->
+* [Motivation](#motivation)
+* [Goals](#goals)
+* [The JavaScript Packages](#the-javascript-packages)
+* [How it works](#how-it-works)
+* [PS](#ps)
 * [Usage](#usage)
 * [Commands](#commands)
 <!-- tocstop -->
+
+# Motivation
+
+IMS integration for authentication and subsequent use of the CLI for service access is critical to the success of the CLI. To that avail, this functionality needs to be as complete as to support anything the browser UI supports as well. In the end, this means support for logging in not only with JWT tokens for technical accounts but also leveraging the SUSI flow for three-legged user based authentication and even, at least for Adobe internal teams, with service tokens.
+
+The current [JWT Auth Plugin for the Adobe I/O CLI](https://github.com/adobe/aio-cli-plugin-jwt-auth) does a decent job supporting JWT based flows with some limitations, though:
+
+* Only a single configuration is supported, thus not allowing to switch for different configurations and thus different setups depending on the actual CLI task at hand. Even with the new local configuration support we are still limited to one configuration per local environment.
+* The configuration contains a lot of boiler plate data, which is the same for many configurations. This also makes the configuration hard to manage.
+* Only JWT tokens are supported. So we are missing real user tokens created using the SUSI UI based flow as well as service tokens, which are sometimes used by Adobe internal teams.
+* The actual JWT signing and token exchange are not easily re-usable outside of the CLI plugin.
+
+# Goals
+
+So the goal of this project along with the companion repositories is to provide more complete support:
+
+* Have a separate module implementing a JavaScript interface to the IMS API, so that this IMS API can be leveraged from multiple places, inside of the Adobe I/O CLI IMS Plugins or outside.
+* Store as little information in the configuration data as possible. This boils down to the absolutely needed fields, such as `client_id`, `client_secret`, `private_key` etc. The boilerplate, such as the bulk of the JWT token should be provided dynamically.
+* The plugins should support all three of the login mechanism: SUSI/UI based for user token, JWT based (technical/utility) user tokens, as well as Adobe-internal service tokens.
+
+# The JavaScript Packages
+
+Without much further ado, here is the collection of IMS supporting plugins:
+
+* The [Adobe IO IMS Support Library](/adobe/aio-cna-core-ims) is the reusable base library providing JavaScript level API to the IMS APIs as well as getting access to tokens. All the functionality of this library is available by simply requiring this library.
+* This [Adobe IO CLI IMS Plugin](/adobe/aio-cli-plugin-ims) is the main CLI plugin to the Adobe IO CLI. See #plugin for more details below.
+* Three extension to the _Adobe IO IMS Support Library_ supporting creation of IMS tokens for different use cases. They all come as node packages. They are used by the _Adobe IO IMS Support Library_ to implement the access token creation. The plugins are:
+    * The [Adobe IO IMS Library JWT Support](/adobe/aio-cna-core-ims-jwt) supporting the generation and exchange for an access token of JWT Tokens.
+    * The [Adobe IO IMS Library OAuth2 Support](/adobe/aio-cna-core-ims-oauth) supporting the creation of tokens using the normal browser-based SUSI flow. To that avail the SUSI flow part is implemented as an embedded [Electron app](https://electronjs.org) driving the browser based interaction and capturing the callback from IMS.
+
+# How it works
+
+This _Adobe IO CLI IMS Plugin_ offers four commands:
+
+* [`login`](/adobe/aio-cli-plugin-ims#aio-imslogin-ctx) to create and return IMS access tokens. Since tokens are cached in the Adobe IO CLI configuration, an actual token is only created if the currently cached token has already expired (or is about to expire within 10 minutes).
+* [`logout`](/adobe/aio-cli-plugin-ims#aio-imslogout-ctx) invalidate cached tokens and remove them from the cache. Besides the access token, this can also be used to invalidate any refresh token that may be cached.
+* [`ctx`](/adobe/aio-cli-plugin-ims#aio-imsctx-ctx) to manage configuration contexts.
+* [`plugins`](/adobe/aio-cli-plugin-ims#aio-imsplugins-plugin) to manage configuration contexts.
+* [`get`](/adobe/aio-cli-plugin-ims#aio-imsget-api) to call an IMS API using an HTTP `GET` request.
+* [`post`](/adobe/aio-cli-plugin-ims#aio-imspost-api) to call an IMS API using an HTTP `GET` request.
+
+# PS
+
+Oh, and yes, docs and tests are a bit lacking this time ... I want to just get this out ASAP for anyone to have a look.
+
 # Usage
 <!-- usage -->
 ```sh-session
@@ -19,7 +69,7 @@ $ npm install -g @adobe/aio-cli-plugin-ims
 $ aio COMMAND
 running command...
 $ aio (-v|--version|version)
-@adobe/aio-cli-plugin-ims/0.0.0 darwin-x64 node-v10.16.0
+@adobe/aio-cli-plugin-ims/1.0.0 darwin-x64 node-v10.16.0
 $ aio --help [COMMAND]
 USAGE
   $ aio COMMAND
@@ -33,8 +83,11 @@ USAGE
 * [`aio ims:get API`](#aio-imsget-api)
 * [`aio ims:login`](#aio-imslogin)
 * [`aio ims:logout`](#aio-imslogout)
+* [`aio ims:organizations`](#aio-imsorganizations)
 * [`aio ims:plugins [PLUGIN]`](#aio-imsplugins-plugin)
 * [`aio ims:post API`](#aio-imspost-api)
+* [`aio ims:profile`](#aio-imsprofile)
+* [`aio ims:session`](#aio-imssession)
 
 ## `aio ims`
 
@@ -85,7 +138,7 @@ EXAMPLE
      }
 ```
 
-_See code: [src/commands/ims/index.js](https://github.com/fmeschbe/aio-cli-plugin-ims/blob/v0.0.0/src/commands/ims/index.js)_
+_See code: [src/commands/ims/index.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/index.js)_
 
 ## `aio ims:ctx`
 
@@ -120,7 +173,7 @@ DESCRIPTION
   and cannot be used as an IMS context name.
 ```
 
-_See code: [src/commands/ims/ctx.js](https://github.com/fmeschbe/aio-cli-plugin-ims/blob/v0.0.0/src/commands/ims/ctx.js)_
+_See code: [src/commands/ims/ctx.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/ctx.js)_
 
 ## `aio ims:get API`
 
@@ -150,7 +203,7 @@ DESCRIPTION
   fails, the error message is returned as an error.
 ```
 
-_See code: [src/commands/ims/get.js](https://github.com/fmeschbe/aio-cli-plugin-ims/blob/v0.0.0/src/commands/ims/get.js)_
+_See code: [src/commands/ims/get.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/get.js)_
 
 ## `aio ims:login`
 
@@ -162,6 +215,7 @@ USAGE
 
 OPTIONS
   -c, --ctx=ctx  Name of the IMS context to use. Default is the current IMS context
+  -d, --decode   Decode and display access token data
   -g, --global   global config
   -l, --local    local config
   -v, --verbose  Verbose output
@@ -181,16 +235,16 @@ DESCRIPTION
 
   The currently supported IMS login plugins are:
 
-  * adobeio-cna-core-ims-jwt for JWT token based login supporting
+  * aio-cna-core-ims-jwt for JWT token based login supporting
      Adobe I/O Console service integrations.
-  * adobeio-cna-core-ims-oauth for browser based OAuth2 login. This
+  * aio-cna-core-ims-oauth for browser based OAuth2 login. This
      plugin will launch a Chromium browser to guide through the
      login process. The plugin itself will *never* see the user's
      password but only receive the authorization token after the
      user authenticated with IMS.
 ```
 
-_See code: [src/commands/ims/login.js](https://github.com/fmeschbe/aio-cli-plugin-ims/blob/v0.0.0/src/commands/ims/login.js)_
+_See code: [src/commands/ims/login.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/login.js)_
 
 ## `aio ims:logout`
 
@@ -224,7 +278,34 @@ DESCRIPTION
   command will just do nothing.
 ```
 
-_See code: [src/commands/ims/logout.js](https://github.com/fmeschbe/aio-cli-plugin-ims/blob/v0.0.0/src/commands/ims/logout.js)_
+_See code: [src/commands/ims/logout.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/logout.js)_
+
+## `aio ims:organizations`
+
+Retrieve the organizations to which the user is associated
+
+```
+USAGE
+  $ aio ims:organizations
+
+OPTIONS
+  -c, --ctx=ctx    Name of the IMS context to use. Default is the current IMS context
+  -d, --data=data  Request parameter in the form of name=value. Repeat for multiple parameters
+  -g, --global     global config
+  -l, --local      local config
+  -v, --verbose    Verbose output
+  --debug=debug    Debug level output
+
+DESCRIPTION
+  This is a raw and low level IMS API call command taking the IMS API
+  path as the first argument and any additional request parameters
+  as optional additional arguments.
+
+  The API result is printed as an object if successful. If the call
+  fails, the error message is returned as an error.
+```
+
+_See code: [src/commands/ims/organizations.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/organizations.js)_
 
 ## `aio ims:plugins [PLUGIN]`
 
@@ -255,7 +336,7 @@ DESCRIPTION
   checked for existence or implementation of the correct contract.
 ```
 
-_See code: [src/commands/ims/plugins.js](https://github.com/fmeschbe/aio-cli-plugin-ims/blob/v0.0.0/src/commands/ims/plugins.js)_
+_See code: [src/commands/ims/plugins.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/plugins.js)_
 
 ## `aio ims:post API`
 
@@ -285,5 +366,59 @@ DESCRIPTION
   fails, the error message is returned as an error.
 ```
 
-_See code: [src/commands/ims/post.js](https://github.com/fmeschbe/aio-cli-plugin-ims/blob/v0.0.0/src/commands/ims/post.js)_
+_See code: [src/commands/ims/post.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/post.js)_
+
+## `aio ims:profile`
+
+Retrieve the IMS Profile (for a user token)
+
+```
+USAGE
+  $ aio ims:profile
+
+OPTIONS
+  -c, --ctx=ctx    Name of the IMS context to use. Default is the current IMS context
+  -d, --data=data  Request parameter in the form of name=value. Repeat for multiple parameters
+  -g, --global     global config
+  -l, --local      local config
+  -v, --verbose    Verbose output
+  --debug=debug    Debug level output
+
+DESCRIPTION
+  This is a raw and low level IMS API call command taking the IMS API
+  path as the first argument and any additional request parameters
+  as optional additional arguments.
+
+  The API result is printed as an object if successful. If the call
+  fails, the error message is returned as an error.
+```
+
+_See code: [src/commands/ims/profile.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/profile.js)_
+
+## `aio ims:session`
+
+Retrieve the IMS Profile (for a user token)
+
+```
+USAGE
+  $ aio ims:session
+
+OPTIONS
+  -c, --ctx=ctx    Name of the IMS context to use. Default is the current IMS context
+  -d, --data=data  Request parameter in the form of name=value. Repeat for multiple parameters
+  -g, --global     global config
+  -l, --local      local config
+  -v, --verbose    Verbose output
+  --debug=debug    Debug level output
+
+DESCRIPTION
+  This is a raw and low level IMS API call command taking the IMS API
+  path as the first argument and any additional request parameters
+  as optional additional arguments.
+
+  The API result is printed as an object if successful. If the call
+  fails, the error message is returned as an error.
+```
+
+_See code: [src/commands/ims/session.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/session.js)_
 <!-- commandsstop -->

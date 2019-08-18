@@ -10,6 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+const { flags } = require('@oclif/command');
 const ImsBaseCommand = require('../../ims-base-command');
 
 class LoginCommand extends ImsBaseCommand {
@@ -17,9 +18,15 @@ class LoginCommand extends ImsBaseCommand {
     async run() {
         const { flags } = this.parse(LoginCommand)
 
-        const { getToken, context } = require('@adobe/adobeio-cna-core-ims');
+        const { getTokenData, getToken, context } = require('@adobe/aio-cna-core-ims');
         try {
-            const token = await getToken(flags.ctx);
+            let token = await getToken(flags.ctx);
+
+            // decode the token
+            if (flags.decode) {
+                token = getTokenData(token);
+            }
+
             this.printObject(token);
         } catch (err) {
             const stackTrace = err.stack ? "\n" + err.stack : "";
@@ -54,7 +61,8 @@ The currently supported IMS login plugins are:
 `
 
 LoginCommand.flags = {
-    ...ImsBaseCommand.flags
+    ...ImsBaseCommand.flags,
+    decode: flags.boolean({ char: 'd', description: 'Decode and display access token data' })
 }
 
 LoginCommand.args = [

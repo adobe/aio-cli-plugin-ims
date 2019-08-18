@@ -17,7 +17,7 @@ class LogoutCommand extends ImsBaseCommand {
     async run() {
         const { flags } = this.parse(LogoutCommand)
 
-        const { invalidateToken, context } = require('@adobe/adobeio-cna-core-ims');
+        const { invalidateToken, context } = require('@adobe/aio-cna-core-ims');
         try {
             await invalidateToken(flags.ctx, flags.force);
         } catch (err) {

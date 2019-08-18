@@ -16,7 +16,7 @@ const ImsBaseCommand = require('../../ims-base-command')
 class PluginsCommand extends ImsBaseCommand {
     async run() {
         const { argv, flags } = this.parse(PluginsCommand);
-        const { context } = require('@adobe/adobeio-cna-core-ims');
+        const { context } = require('@adobe/aio-cna-core-ims');
 
         if (argv && argv.length > 0) {
             // TODO: check each plugin for whether it can be require-d

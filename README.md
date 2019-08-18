@@ -6,7 +6,7 @@ The IMS plugin to aio supports managing tokens for IMS such as login, logout, an
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/aio-cli-plugin-ims.svg)](https://npmjs.org/package/aio-cli-plugin-ims)
 [![Downloads/week](https://img.shields.io/npm/dw/aio-cli-plugin-ims.svg)](https://npmjs.org/package/aio-cli-plugin-ims)
-[![License](https://img.shields.io/npm/l/aio-cli-plugin-ims.svg)](https://github.com/fmeschbe/aio-cli-plugin-ims/blob/master/package.json)
+[![License](https://img.shields.io/npm/l/aio-cli-plugin-ims.svg)](https://github.com/adobe/aio-cli-plugin-ims/blob/master/package.json)
 
 <!-- toc -->
 * [Usage](#usage)

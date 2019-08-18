@@ -20,7 +20,7 @@ class ImsCallCommand extends ImsBaseCommand {
     }
 
     async run() {
-        const { args, flags } = this.parse(ImsCallCommand);
+        const { args, flags } = this.parse(this.constructor);
 
         if (!args.api || !args.api.startsWith("/ims/")) {
             this.error(`Invalid IMS API '${args.api}' - must start with '/ims/'`, { exit: 1 });

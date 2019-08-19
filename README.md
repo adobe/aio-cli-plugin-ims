@@ -41,22 +41,22 @@ So the goal of this project along with the companion repositories is to provide 
 
 Without much further ado, here is the collection of IMS supporting plugins:
 
-* The [Adobe IO IMS Support Library](/adobe/aio-cna-core-ims) is the reusable base library providing JavaScript level API to the IMS APIs as well as getting access to tokens. All the functionality of this library is available by simply requiring this library.
-* This [Adobe IO CLI IMS Plugin](/adobe/aio-cli-plugin-ims) is the main CLI plugin to the Adobe IO CLI. See #plugin for more details below.
+* The [Adobe I/O CNA IMS Support Library](https://github.com/adobe/aio-cna-core-ims) is the reusable base library providing JavaScript level API to the IMS APIs as well as getting access to tokens. All the functionality of this library is available by simply requiring this library.
+* This [Adobe I/O CLI IMS Plugin](https://github.com/adobe/aio-cli-plugin-ims) is the main CLI plugin to the Adobe IO CLI. See #plugin for more details below.
 * Three extension to the _Adobe IO IMS Support Library_ supporting creation of IMS tokens for different use cases. They all come as node packages. They are used by the _Adobe IO IMS Support Library_ to implement the access token creation. The plugins are:
-    * The [Adobe IO IMS Library JWT Support](/adobe/aio-cna-core-ims-jwt) supporting the generation and exchange for an access token of JWT Tokens.
-    * The [Adobe IO IMS Library OAuth2 Support](/adobe/aio-cna-core-ims-oauth) supporting the creation of tokens using the normal browser-based SUSI flow. To that avail the SUSI flow part is implemented as an embedded [Electron app](https://electronjs.org) driving the browser based interaction and capturing the callback from IMS.
+    * The [Adobe I/O CNA IMS Library JWT Support](https://github.com/adobe/aio-cna-core-ims-jwt) supporting the generation and exchange for an access token of JWT Tokens.
+    * The [Adobe I/O CNA IMS Library OAuth2 Support](https://github.com/adobe/aio-cna-core-ims-oauth) supporting the creation of tokens using the normal browser-based SUSI flow. To that avail the SUSI flow part is implemented as an embedded [Electron app](https://electronjs.org) driving the browser based interaction and capturing the callback from IMS.
 
 # How it works
 
 This _Adobe IO CLI IMS Plugin_ offers four commands:
 
-* [`login`](/adobe/aio-cli-plugin-ims#aio-imslogin-ctx) to create and return IMS access tokens. Since tokens are cached in the Adobe IO CLI configuration, an actual token is only created if the currently cached token has already expired (or is about to expire within 10 minutes).
-* [`logout`](/adobe/aio-cli-plugin-ims#aio-imslogout-ctx) invalidate cached tokens and remove them from the cache. Besides the access token, this can also be used to invalidate any refresh token that may be cached.
-* [`ctx`](/adobe/aio-cli-plugin-ims#aio-imsctx-ctx) to manage configuration contexts.
-* [`plugins`](/adobe/aio-cli-plugin-ims#aio-imsplugins-plugin) to manage configuration contexts.
-* [`get`](/adobe/aio-cli-plugin-ims#aio-imsget-api) to call an IMS API using an HTTP `GET` request.
-* [`post`](/adobe/aio-cli-plugin-ims#aio-imspost-api) to call an IMS API using an HTTP `GET` request.
+* [`login`](#aio-imslogin) to create and return IMS access tokens. Since tokens are cached in the Adobe IO CLI configuration, an actual token is only created if the currently cached token has already expired (or is about to expire within 10 minutes).
+* [`logout`](#aio-imslogout) invalidate cached tokens and remove them from the cache. Besides the access token, this can also be used to invalidate any refresh token that may be cached.
+* [`ctx`](#aio-imsctx) to manage configuration contexts.
+* [`plugins`](#aio-imsplugins-plugin) to manage configuration contexts.
+* [`profile`](#aio-imsprofile), [`organizations`](#aio-imsorganizations), and [`session`](#aio-imssession) to retrieve respective IMS information
+* Low level [`get`](#aio-imsget-api) and [`post`](#aio-imspost-api) to directly call IMS API using raw HTTP `GET` and `POST` requests.
 
 # PS
 
@@ -422,3 +422,12 @@ DESCRIPTION
 
 _See code: [src/commands/ims/session.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/session.js)_
 <!-- commandsstop -->
+
+
+# Contributing
+Contributions are welcomed! Read the [Contributing Guide](CONTRIBUTING.md) for more information.
+
+
+# Licensing
+
+This project is licensed under the Apache V2 License. See [LICENSE](LICENSE) for more information.

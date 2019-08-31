@@ -156,7 +156,7 @@ OPTIONS
   -v, --verbose  Verbose output
   --debug=debug  Debug level output
   --list         Names of the IMS contexts as an array
-  --val          Prints named or current IMS context data
+  --value        Prints named or current IMS context data
 
 DESCRIPTION
   The following options exist for this command:

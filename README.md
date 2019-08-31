@@ -16,6 +16,8 @@ The IMS plugin to aio supports managing tokens for IMS such as login, logout, an
 * [PS](#ps)
 * [Usage](#usage)
 * [Commands](#commands)
+* [Contributing](#contributing)
+* [Licensing](#licensing)
 <!-- tocstop -->
 
 # Motivation
@@ -216,6 +218,8 @@ USAGE
 OPTIONS
   -c, --ctx=ctx  Name of the IMS context to use. Default is the current IMS context
   -d, --decode   Decode and display access token data
+  -f, --force    Force logging in. This causes a forced logout on the context first and makes sure to not use any cached
+                 data when calling the plugin.
   -g, --global   global config
   -l, --local    local config
   -v, --verbose  Verbose output
@@ -256,18 +260,13 @@ USAGE
 
 OPTIONS
   -c, --ctx=ctx  Name of the IMS context to use. Default is the current IMS context
-
   -f, --force    Invalidate the refresh token as well as all access tokens.
                  Otherwise only the access token is invalidated. For IMS
                  contexts not supporting refresh tokens, this flag has no
                  effect.
-
   -g, --global   global config
-
   -l, --local    local config
-
   -v, --verbose  Verbose output
-
   --debug=debug  Debug level output
 
 DESCRIPTION

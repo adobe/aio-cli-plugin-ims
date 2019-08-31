@@ -18,9 +18,19 @@ class LoginCommand extends ImsBaseCommand {
     async run() {
         const { flags } = this.parse(LoginCommand)
 
-        const { getTokenData, getToken, context } = require('@adobe/aio-cna-core-ims');
+        const { getTokenData, getToken, invalidateToken, context } = require('@adobe/aio-cna-core-ims');
         try {
-            let token = await getToken(flags.ctx);
+            // in case of forced login: forced logout first
+            if (flags.force) {
+                try {
+                    await invalidateToken(flags.ctx, true);
+                } catch (err) {
+                    // ignore failure of invalidation, continue with login
+                }
+            }
+
+            // login
+            let token = await getToken(flags.ctx, flags.force);
 
             // decode the token
             if (flags.decode) {
@@ -62,6 +72,7 @@ The currently supported IMS login plugins are:
 
 LoginCommand.flags = {
     ...ImsBaseCommand.flags,
+    force: flags.boolean({ char: 'f', description: 'Force logging in. This causes a forced logout on the context first and makes sure to not use any cached data when calling the plugin.', default: false }),
     decode: flags.boolean({ char: 'd', description: 'Decode and display access token data' })
 }
 

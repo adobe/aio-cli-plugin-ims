@@ -5,7 +5,7 @@
   "author": "Adobe",
   "bugs": "https://github.com/adobe/aio-cli-plugin-ims/issues",
   "dependencies": {
-    "@adobe/aio-cna-core-ims": "^1.0.0",
+    "@adobe/aio-lib-core-ims": "^1.0.0",
     "@oclif/command": "^1.5.13",
     "hjson": "^3.1.2",
     "js-yaml": "^3.13.0"

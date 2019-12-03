@@ -15,7 +15,7 @@ const ImsCommandCommand = require('../../ims-command-command')
 class SessionCommand extends ImsCommandCommand {
 
     async _getSessionLink() {
-        const { getTokenData, getToken } = require('@adobe/aio-cna-core-ims');
+        const { getTokenData, getToken } = require('@adobe/aio-lib-core-ims');
         const { flags } = this.parse(this.constructor);
 
         return await getToken(flags.ctx)

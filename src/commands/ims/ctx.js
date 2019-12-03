@@ -26,7 +26,7 @@ class CtxCommand extends ImsBaseCommand {
          * - set the current context data ???
          */
 
-        const { context } = require('@adobe/aio-cna-core-ims');
+        const { context } = require('@adobe/aio-lib-core-ims');
         if (flags.list) {
             this.printObject(context.keys());
         } else if (flags.value) {

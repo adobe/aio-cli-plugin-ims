@@ -61,7 +61,7 @@ class ImsCommandCommand extends ImsBaseCommand {
         this.debug("API    : %s", api);
         this.debug("Params : %o", data);
 
-        const { Ims, getToken } = require('@adobe/aio-cna-core-ims');
+        const { Ims, getToken } = require('@adobe/aio-lib-core-ims');
         try {
             await getToken(flags.ctx)
                 .then(token => Ims.fromToken(token))

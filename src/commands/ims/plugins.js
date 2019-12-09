@@ -22,7 +22,7 @@ class PluginsCommand extends ImsBaseCommand {
             // TODO: check each plugin for whether it can be require-d
             // TODO: check each plugin for whether it implements the contract
             // TODO: have option to omit the check(s)
-            context.setPlugins(argv, flags.local);
+            context.plugins = argv
         } else {
             this.printObject(context.plugins);
         }

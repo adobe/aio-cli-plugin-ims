@@ -13,10 +13,20 @@
     "js-yaml": "^3.13.0"
   },
   "devDependencies": {
+    "@adobe/eslint-config-aio-lib-config": "^1.0.2",
     "@oclif/dev-cli": "^1.22.0",
     "@oclif/plugin-help": "^2.1.6",
-    "eslint": "^5.16.0",
+    "eslint": "^6",
     "eslint-config-oclif": "^3.1.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jest": "^23.1.1",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "jest": "^24",
+    "jest-junit": "^9.0.0",
+    "stdout-stderr": "^0.1.9",
     "globby": "^8.0.2"
   },
   "engines": {
@@ -41,7 +51,7 @@
   "repository": "https://github.com/adobe/aio-cli-plugin-ims",
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
-    "posttest": "eslint .",
+    "pretest": "eslint src test",
     "prepack": "oclif-dev manifest && oclif-dev readme",
     "test": "echo NO TESTS",
     "version": "oclif-dev readme && git add README.md"

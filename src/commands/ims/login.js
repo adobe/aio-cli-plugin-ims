@@ -10,40 +10,39 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { flags } = require('@oclif/command');
-const ImsBaseCommand = require('../../ims-base-command');
+const { flags } = require('@oclif/command')
+const ImsBaseCommand = require('../../ims-base-command')
 
 class LoginCommand extends ImsBaseCommand {
+  async run () {
+    const { flags } = this.parse(LoginCommand)
 
-    async run() {
-        const { flags } = this.parse(LoginCommand)
-
-        const { getTokenData, getToken, invalidateToken, context } = require('@adobe/aio-lib-core-ims');
+    const { getTokenData, getToken, invalidateToken, context } = require('@adobe/aio-lib-core-ims')
+    try {
+      // in case of forced login: forced logout first
+      if (flags.force) {
         try {
-            // in case of forced login: forced logout first
-            if (flags.force) {
-                try {
-                    await invalidateToken(flags.ctx, true);
-                } catch (err) {
-                    // ignore failure of invalidation, continue with login
-                }
-            }
-
-            // login
-            let token = await getToken(flags.ctx, flags.force);
-
-            // decode the token
-            if (flags.decode) {
-                token = getTokenData(token);
-            }
-
-            this.printObject(token);
+          await invalidateToken(flags.ctx, true)
         } catch (err) {
-            const stackTrace = err.stack ? "\n" + err.stack : "";
-            this.debug(`Login Failure: ${err.message || err}${stackTrace}`);
-            this.error(`Cannot get token for context '${flags.ctx || context.current}': ${err.message || err}`, { exit: 1 });
+          // ignore failure of invalidation, continue with login
         }
+      }
+
+      // login
+      let token = await getToken(flags.ctx, flags.force)
+
+      // decode the token
+      if (flags.decode) {
+        token = getTokenData(token)
+      }
+
+      this.printObject(token)
+    } catch (err) {
+      const stackTrace = err.stack ? '\n' + err.stack : ''
+      this.debug(`Login Failure: ${err.message || err}${stackTrace}`)
+      this.error(`Cannot get token for context '${flags.ctx || context.current}': ${err.message || err}`, { exit: 1 })
     }
+  }
 }
 
 LoginCommand.description = `Log in with a certain IMS context and returns the access token.
@@ -71,13 +70,13 @@ The currently supported IMS login plugins are:
 `
 
 LoginCommand.flags = {
-    ...ImsBaseCommand.flags,
-    force: flags.boolean({ char: 'f', description: 'Force logging in. This causes a forced logout on the context first and makes sure to not use any cached data when calling the plugin.', default: false }),
-    decode: flags.boolean({ char: 'd', description: 'Decode and display access token data' })
+  ...ImsBaseCommand.flags,
+  force: flags.boolean({ char: 'f', description: 'Force logging in. This causes a forced logout on the context first and makes sure to not use any cached data when calling the plugin.', default: false }),
+  decode: flags.boolean({ char: 'd', description: 'Decode and display access token data' })
 }
 
 LoginCommand.args = [
-    ...ImsBaseCommand.args
+  ...ImsBaseCommand.args
 ]
 
 module.exports = LoginCommand

@@ -13,12 +13,10 @@ governing permissions and limitations under the License.
 const ImsCommandCommand = require('../../ims-command-command')
 
 class OrganizationsCommand extends ImsCommandCommand {
-
-    async getApi() {
-        this.debug("get::api()");
-        return "/ims/organizations";
-    }
-
+  async getApi () {
+    this.debug('get::api()')
+    return '/ims/organizations'
+  }
 }
 
 OrganizationsCommand.description = `Retrieve the organizations to which the user is associated
@@ -26,11 +24,11 @@ ${ImsCommandCommand.description}
 `
 
 OrganizationsCommand.flags = {
-    ...ImsCommandCommand.flags
+  ...ImsCommandCommand.flags
 }
 
 OrganizationsCommand.args = [
-    ...ImsCommandCommand.args
+  ...ImsCommandCommand.args
 ]
 
 module.exports = OrganizationsCommand

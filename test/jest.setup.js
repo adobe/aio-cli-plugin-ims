@@ -1,34 +1,22 @@
+
 /*
-Copyright 2018 Adobe. All rights reserved.
+Copyright 2019 Adobe Inc. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software distributed under
 the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
 
-const ImsCommandCommand = require('../../ims-command-command')
+const { stdout } = require('stdout-stderr')
 
-class ProfileCommand extends ImsCommandCommand {
-  async getApi () {
-    this.debug('get::api()')
-    return '/ims/profile'
-  }
-}
+process.env.CI = true
 
-ProfileCommand.description = `Retrieve the IMS Profile (for a user token)
-${ImsCommandCommand.description}
-`
+jest.setTimeout(30000)
+jest.useFakeTimers()
 
-ProfileCommand.flags = {
-  ...ImsCommandCommand.flags
-}
-
-ProfileCommand.args = [
-  ...ImsCommandCommand.args
-]
-
-module.exports = ProfileCommand
+// trap console log
+beforeEach(() => { stdout.start() })
+afterEach(() => { stdout.stop() })

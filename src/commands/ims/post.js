@@ -13,12 +13,10 @@ governing permissions and limitations under the License.
 const ImsCallCommand = require('../../ims-call-command')
 
 class PostCommand extends ImsCallCommand {
-
-    async call(ims, api, token, parameterMap) {
-        this.debug("call(%s, %s, %o)", api, token, parameterMap);
-        return ims.post(api, token, parameterMap);
-    }
-
+  async call (ims, api, token, parameterMap) {
+    this.debug('call(%s, %s, %o)', api, token, parameterMap)
+    return ims.post(api, token, parameterMap)
+  }
 }
 
 PostCommand.description = `Call an IMS API using a POST request
@@ -26,11 +24,11 @@ ${ImsCallCommand.description}
 `
 
 PostCommand.flags = {
-    ...ImsCallCommand.flags
+  ...ImsCallCommand.flags
 }
 
 PostCommand.args = [
-    ...ImsCallCommand.args
+  ...ImsCallCommand.args
 ]
 
 module.exports = PostCommand

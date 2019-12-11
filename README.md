@@ -71,7 +71,7 @@ $ npm install -g @adobe/aio-cli-plugin-ims
 $ aio COMMAND
 running command...
 $ aio (-v|--version|version)
-@adobe/aio-cli-plugin-ims/1.0.0 darwin-x64 node-v10.16.0
+@adobe/aio-cli-plugin-ims/1.0.1 darwin-x64 node-v10.16.0
 $ aio --help [COMMAND]
 USAGE
   $ aio COMMAND
@@ -140,7 +140,7 @@ EXAMPLE
      }
 ```
 
-_See code: [src/commands/ims/index.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/index.js)_
+_See code: [src/commands/ims/index.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.1/src/commands/ims/index.js)_
 
 ## `aio ims:ctx`
 
@@ -175,7 +175,7 @@ DESCRIPTION
   and cannot be used as an IMS context name.
 ```
 
-_See code: [src/commands/ims/ctx.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/ctx.js)_
+_See code: [src/commands/ims/ctx.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.1/src/commands/ims/ctx.js)_
 
 ## `aio ims:get API`
 
@@ -205,7 +205,7 @@ DESCRIPTION
   fails, the error message is returned as an error.
 ```
 
-_See code: [src/commands/ims/get.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/get.js)_
+_See code: [src/commands/ims/get.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.1/src/commands/ims/get.js)_
 
 ## `aio ims:login`
 
@@ -218,11 +218,16 @@ USAGE
 OPTIONS
   -c, --ctx=ctx  Name of the IMS context to use. Default is the current IMS context
   -d, --decode   Decode and display access token data
+
   -f, --force    Force logging in. This causes a forced logout on the context first and makes sure to not use any cached
                  data when calling the plugin.
+
   -g, --global   global config
+
   -l, --local    local config
+
   -v, --verbose  Verbose output
+
   --debug=debug  Debug level output
 
 DESCRIPTION
@@ -248,7 +253,7 @@ DESCRIPTION
      user authenticated with IMS.
 ```
 
-_See code: [src/commands/ims/login.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/login.js)_
+_See code: [src/commands/ims/login.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.1/src/commands/ims/login.js)_
 
 ## `aio ims:logout`
 
@@ -260,13 +265,18 @@ USAGE
 
 OPTIONS
   -c, --ctx=ctx  Name of the IMS context to use. Default is the current IMS context
+
   -f, --force    Invalidate the refresh token as well as all access tokens.
                  Otherwise only the access token is invalidated. For IMS
                  contexts not supporting refresh tokens, this flag has no
                  effect.
+
   -g, --global   global config
+
   -l, --local    local config
+
   -v, --verbose  Verbose output
+
   --debug=debug  Debug level output
 
 DESCRIPTION
@@ -277,7 +287,7 @@ DESCRIPTION
   command will just do nothing.
 ```
 
-_See code: [src/commands/ims/logout.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/logout.js)_
+_See code: [src/commands/ims/logout.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.1/src/commands/ims/logout.js)_
 
 ## `aio ims:organizations`
 
@@ -304,7 +314,7 @@ DESCRIPTION
   fails, the error message is returned as an error.
 ```
 
-_See code: [src/commands/ims/organizations.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/organizations.js)_
+_See code: [src/commands/ims/organizations.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.1/src/commands/ims/organizations.js)_
 
 ## `aio ims:plugins [PLUGIN]`
 
@@ -335,7 +345,7 @@ DESCRIPTION
   checked for existence or implementation of the correct contract.
 ```
 
-_See code: [src/commands/ims/plugins.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/plugins.js)_
+_See code: [src/commands/ims/plugins.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.1/src/commands/ims/plugins.js)_
 
 ## `aio ims:post API`
 
@@ -365,7 +375,7 @@ DESCRIPTION
   fails, the error message is returned as an error.
 ```
 
-_See code: [src/commands/ims/post.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/post.js)_
+_See code: [src/commands/ims/post.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.1/src/commands/ims/post.js)_
 
 ## `aio ims:profile`
 
@@ -392,7 +402,7 @@ DESCRIPTION
   fails, the error message is returned as an error.
 ```
 
-_See code: [src/commands/ims/profile.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/profile.js)_
+_See code: [src/commands/ims/profile.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.1/src/commands/ims/profile.js)_
 
 ## `aio ims:session`
 
@@ -419,7 +429,7 @@ DESCRIPTION
   fails, the error message is returned as an error.
 ```
 
-_See code: [src/commands/ims/session.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.0/src/commands/ims/session.js)_
+_See code: [src/commands/ims/session.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.1/src/commands/ims/session.js)_
 <!-- commandsstop -->
 
 

@@ -10,57 +10,57 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { flags } = require('@oclif/command');
-const ImsBaseCommand = require('./ims-base-command');
+const { flags } = require('@oclif/command')
+const ImsBaseCommand = require('./ims-base-command')
 
 class ImsCallCommand extends ImsBaseCommand {
-    async call(ims, api, token, parameterMap) {
-        this.debug("call(%s, %s, %o)", api, token, parameterMap);
-        return Promise.reject(new Error("This function cannot be called directly"));
+  async call (ims, api, token, parameterMap) {
+    this.debug('call(%s, %s, %o)', api, token, parameterMap)
+    return Promise.reject(new Error('This function cannot be called directly'))
+  }
+
+  async run () {
+    const { args, flags } = this.parse(this.constructor)
+
+    if (!args.api || !args.api.startsWith('/ims/')) {
+      this.error(`Invalid IMS API '${args.api}' - must start with '/ims/'`, { exit: 1 })
     }
 
-    async run() {
-        const { args, flags } = this.parse(this.constructor);
-
-        if (!args.api || !args.api.startsWith("/ims/")) {
-            this.error(`Invalid IMS API '${args.api}' - must start with '/ims/'`, { exit: 1 });
-        }
-
-        let data = {}
-        if (flags.data) {
-            for (const val of flags.data) {
-                data[val[0]] = val[1];
-            }
-        }
-
-        this.debug("Context: %s", flags.ctx);
-        this.debug("API    : %s", args.api);
-        this.debug("Params : %o", data);
-
-        const { Ims, getToken } = require('@adobe/aio-cna-core-ims');
-        try {
-            await getToken(flags.ctx)
-                .then(token => Ims.fromToken(token))
-                .then(tokenIms => this.call(tokenIms.ims, args.api, tokenIms.token, data))
-                .then(result => this.printObject(result))
-        } catch (err) {
-            this.debug("error: %o", err);
-            let reason;
-            if (err.statusCode) {
-                switch (err.statusCode) {
-                    case 404: // NOT FOUND
-                        reason = "API does not exist";
-                        break;
-                    default:
-                        reason = err.error.error_description;
-                        break;
-                }
-            } else {
-                reason = (err.message || err);
-            }
-            this.error(`Failed calling ${args.api}\nReason: ${reason}`, { exit: 1 });
-        }
+    const data = {}
+    if (flags.data) {
+      for (const val of flags.data) {
+        data[val[0]] = val[1]
+      }
     }
+
+    this.debug('Context: %s', flags.ctx)
+    this.debug('API    : %s', args.api)
+    this.debug('Params : %o', data)
+
+    const { Ims, getToken } = require('@adobe/aio-lib-core-ims')
+    try {
+      await getToken(flags.ctx)
+        .then(token => Ims.fromToken(token))
+        .then(tokenIms => this.call(tokenIms.ims, args.api, tokenIms.token, data))
+        .then(result => this.printObject(result))
+    } catch (err) {
+      this.debug('error: %o', err)
+      let reason
+      if (err.statusCode) {
+        switch (err.statusCode) {
+          case 404: // NOT FOUND
+            reason = 'API does not exist'
+            break
+          default:
+            reason = err.error.error_description
+            break
+        }
+      } else {
+        reason = (err.message || err)
+      }
+      this.error(`Failed calling ${args.api}\nReason: ${reason}`, { exit: 1 })
+    }
+  }
 }
 
 ImsCallCommand.description = `
@@ -72,18 +72,18 @@ The API result is printed as an object if successful. If the call
 fails, the error message is returned as an error.
 `
 
-ImsCallCommand.parameterParser = input => input.split("=");
+ImsCallCommand.parameterParser = input => input.split('=')
 
 ImsCallCommand.flags = {
-    ...ImsBaseCommand.flags,
+  ...ImsBaseCommand.flags,
 
-    data: flags.string({ char: 'd', description: 'Request parameter in the form of name=value. Repeat for multiple parameters', multiple: true, parse: ImsCallCommand.parameterParser })
+  data: flags.string({ char: 'd', description: 'Request parameter in the form of name=value. Repeat for multiple parameters', multiple: true, parse: ImsCallCommand.parameterParser })
 }
 
 ImsCallCommand.args = [
-    ...ImsBaseCommand.args,
+  ...ImsBaseCommand.args,
 
-    { name: 'api', description: 'The IMS API to call, for example: /ims/profile/v1', required: true }
+  { name: 'api', description: 'The IMS API to call, for example: /ims/profile/v1', required: true }
 ]
 
 module.exports = ImsCallCommand

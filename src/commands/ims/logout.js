@@ -14,18 +14,18 @@ const { flags } = require('@oclif/command')
 const ImsBaseCommand = require('../../ims-base-command')
 
 class LogoutCommand extends ImsBaseCommand {
-    async run() {
-        const { flags } = this.parse(LogoutCommand)
+  async run () {
+    const { flags } = this.parse(LogoutCommand)
 
-        const { invalidateToken, context } = require('@adobe/aio-cna-core-ims');
-        try {
-            await invalidateToken(flags.ctx, flags.force);
-        } catch (err) {
-            const stackTrace = err.stack ? "\n" + err.stack : "";
-            this.debug(`Logout Failure: ${err.message || err}${stackTrace}`);
-            this.error(`Cannot logout context '${flags.ctx || context.current}': ${err.message || err}`, { exit: 1 });
-        }
+    const { invalidateToken, context } = require('@adobe/aio-lib-core-ims')
+    try {
+      await invalidateToken(flags.ctx, flags.force)
+    } catch (err) {
+      const stackTrace = err.stack ? '\n' + err.stack : ''
+      this.debug(`Logout Failure: ${err.message || err}${stackTrace}`)
+      this.error(`Cannot logout context '${flags.ctx || context.current}': ${err.message || err}`, { exit: 1 })
     }
+  }
 }
 
 LogoutCommand.description = `Log out the current or a named IMS context.
@@ -38,16 +38,17 @@ command will just do nothing.
 `
 
 LogoutCommand.flags = {
-    ...ImsBaseCommand.flags,
-    force: flags.boolean({
-        char: 'f', description: `Invalidate the refresh token as well as all access tokens.
+  ...ImsBaseCommand.flags,
+  force: flags.boolean({
+    char: 'f', description: `Invalidate the refresh token as well as all access tokens.
 Otherwise only the access token is invalidated. For IMS
 contexts not supporting refresh tokens, this flag has no
-effect.` })
+effect.`
+  })
 }
 
 LogoutCommand.args = [
-    ...ImsBaseCommand.args
+  ...ImsBaseCommand.args
 ]
 
 module.exports = LogoutCommand

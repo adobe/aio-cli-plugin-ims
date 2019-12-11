@@ -13,30 +13,27 @@ governing permissions and limitations under the License.
 const ImsCommandCommand = require('../../ims-command-command')
 
 class SessionCommand extends ImsCommandCommand {
+  async _getSessionLink () {
+    const { getTokenData, getToken } = require('@adobe/aio-lib-core-ims')
+    const { flags } = this.parse(this.constructor)
 
-    async _getSessionLink() {
-        const { getTokenData, getToken } = require('@adobe/aio-cna-core-ims');
-        const { flags } = this.parse(this.constructor);
+    return getToken(flags.ctx)
+      .then(token => getTokenData(token))
+      .then(tokenData => JSON.parse(tokenData.state))
+    //            .then(state => { this.log("state: %s", state); return JSON.parse(state.session) } )
+      .then(state => { this.log('state: %o', state); return new URL(state.session) })
+      .then(sessionUrl => { this.log('sessionUrl: %o', sessionUrl); return sessionUrl.pathname })
+  }
 
-        return await getToken(flags.ctx)
-            .then(token => getTokenData(token))
-            .then(tokenData => JSON.parse(tokenData.state))
-//            .then(state => { this.log("state: %s", state); return JSON.parse(state.session) } )
-            .then(state => { this.log("state: %o", state); return new URL(state.session) } )
-            .then(sessionUrl => { this.log("sessionUrl: %o", sessionUrl); return sessionUrl.pathname } );
+  async getApi () {
+    this.debug('get::api()')
+    if (!this._api) {
+      this._api = this._getSessionLink()
     }
 
-    async getApi() {
-        this.debug("get::api()");
-        IF_API:
-        if (!this._api) {
-            this._api =this._getSessionLink();
-        }
-
-        this.log("api: %s", this._api);
-        return this._api;
-    }
-
+    this.log('api: %s', this._api)
+    return this._api
+  }
 }
 
 SessionCommand.description = `Retrieve the IMS Profile (for a user token)
@@ -44,11 +41,11 @@ ${ImsCommandCommand.description}
 `
 
 SessionCommand.flags = {
-    ...ImsCommandCommand.flags
+  ...ImsCommandCommand.flags
 }
 
 SessionCommand.args = [
-    ...ImsCommandCommand.args
+  ...ImsCommandCommand.args
 ]
 
 module.exports = SessionCommand

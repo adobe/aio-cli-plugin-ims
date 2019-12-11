@@ -14,25 +14,24 @@ const { flags } = require('@oclif/command')
 const ImsBaseCommand = require('../../ims-base-command')
 
 class PluginsCommand extends ImsBaseCommand {
-    async run() {
-        const { argv, flags } = this.parse(PluginsCommand);
-        const { context } = require('@adobe/aio-cna-core-ims');
+  async run () {
+    const { argv } = this.parse(PluginsCommand)
+    const { context } = require('@adobe/aio-lib-core-ims')
 
-        if (argv && argv.length > 0) {
-            // TODO: check each plugin for whether it can be require-d
-            // TODO: check each plugin for whether it implements the contract
-            // TODO: have option to omit the check(s)
-            context.setPlugins(argv, flags.local);
-        } else {
-            this.printObject(context.plugins);
-        }
-
-        const debugCore = require('debug');
-        const debug = debugCore('mine');
-        debug("debugCore.names: %o", debugCore.names);
-        debug("debugCore.instances: %o", debugCore.instances);
-
+    if (argv && argv.length > 0) {
+      // TODO: check each plugin for whether it can be require-d
+      // TODO: check each plugin for whether it implements the contract
+      // TODO: have option to omit the check(s)
+      context.plugins = argv
+    } else {
+      this.printObject(context.plugins)
     }
+
+    const debugCore = require('debug')
+    const debug = debugCore('mine')
+    debug('debugCore.names: %o', debugCore.names)
+    debug('debugCore.instances: %o', debugCore.instances)
+  }
 }
 
 PluginsCommand.description = `Manage Create Token Plugins.
@@ -47,17 +46,17 @@ checked for existence or implementation of the correct contract.
 `
 
 PluginsCommand.flags = {
-    ...ImsBaseCommand.flags,
+  ...ImsBaseCommand.flags,
 
-    force: flags.boolean({ char: 'f', description: `Force configuring the list of plugins without checking for existence or contract` })
+  force: flags.boolean({ char: 'f', description: 'Force configuring the list of plugins without checking for existence or contract' })
 }
 
 // just collect all arguments not being flags into the argv array and
 // assume them to be plugins -- have the 'plugin' entry just for --help
 // purposes.
-PluginsCommand.strict = false;
+PluginsCommand.strict = false
 PluginsCommand.args = [
-    { name: 'plugin', required: false, description: 'List of plugins to configure. If not provided, prints the current list instead' }
+  { name: 'plugin', required: false, description: 'List of plugins to configure. If not provided, prints the current list instead' }
 ]
 
 module.exports = PluginsCommand

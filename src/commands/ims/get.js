@@ -13,12 +13,10 @@ governing permissions and limitations under the License.
 const ImsCallCommand = require('../../ims-call-command')
 
 class GetCommand extends ImsCallCommand {
-
-    async call(ims, api, token, parameterMap) {
-        this.debug("call(%s, %s, %o)", api, token, parameterMap);
-        return ims.get(api, token, parameterMap);
-    }
-
+  async call (ims, api, token, parameterMap) {
+    this.debug('call(%s, %s, %o)', api, token, parameterMap)
+    return ims.get(api, token, parameterMap)
+  }
 }
 
 GetCommand.description = `Call an IMS API using a GET request
@@ -26,11 +24,11 @@ ${ImsCallCommand.description}
 `
 
 GetCommand.flags = {
-    ...ImsCallCommand.flags
+  ...ImsCallCommand.flags
 }
 
 GetCommand.args = [
-    ...ImsCallCommand.args
+  ...ImsCallCommand.args
 ]
 
 module.exports = GetCommand

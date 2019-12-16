@@ -28,7 +28,7 @@ class SessionCommand extends ImsCommandCommand {
   async getApi () {
     this.debug('get::api()')
     if (!this._api) {
-      this._api = this._getSessionLink()
+      this._api = await this._getSessionLink()
     }
 
     this.log('api: %s', this._api)

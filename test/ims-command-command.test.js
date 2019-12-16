@@ -10,7 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const TheCommand = require('../src/ims-call-command')
+const TheCommand = require('../src/ims-command-command')
 const BaseCommand = require('../src/ims-base-command')
 const ims = require('@adobe/aio-lib-core-ims')
 
@@ -35,46 +35,51 @@ test('exports and properties', () => {
   expect(typeof TheCommand.args).toEqual('object')
 })
 
-test('call', async () => {
-  const runResult = command.call([])
+test('getApi', async () => {
+  const runResult = command.getApi()
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toEqual(new Error('This function cannot be called directly'))
 })
 
-test('run - no args/bad args', async () => {
-  let runResult
-  const api = '/some/api'
+test('method', () => {
+  const method = command.method
+  expect(method).toEqual('get')
+})
 
-  // no api, error
-  command.argv = []
-  runResult = command.run()
-  await expect(runResult).rejects.toEqual(new Error(
-`Missing 1 required arg:
-api  The IMS API to call, for example: /ims/profile/v1
-See more help with --help`
-  ))
+test('call', async () => {
+  const method = 'get'
+  const api = 'my-api'
+  const token = 'my-token'
+  const parameterMap = { foo: 'bar' }
+  const expectedResult = 'my-result'
 
-  // bad api, error
-  command.argv = [api]
-  runResult = command.run()
-  await expect(runResult).rejects.toEqual(new Error(`Invalid IMS API '${api}' - must start with '/ims/'`))
+  expect.assertions(4)
+
+  const ims = {
+    [method]: (_api, _token, _parameterMap) => {
+      expect(_api).toEqual(api)
+      expect(_token).toEqual(token)
+      expect(_parameterMap).toEqual(parameterMap)
+      return expectedResult
+    }
+  }
+
+  const callResult = command.call(ims, method, api, token, parameterMap)
+  await expect(callResult).resolves.toEqual(expectedResult)
 })
 
 test('run - success', async () => {
   const result = 'my-result'
-  const api = '/ims/foo'
   const imsToken = { ims: {} }
 
   const spy = jest.spyOn(command, 'printObject')
 
+  command.getApi = jest.fn(() => '/ims/foo')
+  command.call = jest.fn(() => result)
   ims.getToken.mockImplementation(async (ctx, force) => 'token')
   ims.Ims.fromToken = jest.fn(() => imsToken)
 
-  command.call = jest.fn(() => {
-    return result
-  })
-
-  command.argv = [api, '--data', 'foo=bar']
+  command.argv = ['--data', 'foo=bar']
   const runResult = command.run()
   await expect(runResult).resolves.not.toThrow()
   expect(spy).toHaveBeenCalledWith(result)
@@ -87,7 +92,7 @@ test('run - errors', async () => {
   const api = '/ims/foo'
   const imsToken = { ims: {} }
 
-  command.argv = [api]
+  command.getApi = jest.fn(() => api)
 
   // getToken error (Error object)
   ims.getToken.mockImplementation(async (ctx, force) => {
@@ -119,7 +124,6 @@ test('run - errors', async () => {
       }
     }
   })
-  command.argv = [api]
   runResult = command.run()
   await expect(runResult).rejects.toEqual(new Error(`Failed calling ${api}\nReason: ${errorDescription}`))
 
@@ -132,4 +136,19 @@ test('run - errors', async () => {
   })
   runResult = command.run()
   await expect(runResult).rejects.toEqual(new Error(`Failed calling ${api}\nReason: API does not exist`))
+
+  // getApi failure (Error object, coverage)
+  const getApiErrorMessage = 'getApi failure'
+  command.getApi = jest.fn(() => {
+    throw new Error(getApiErrorMessage)
+  })
+  runResult = command.run()
+  await expect(runResult).rejects.toEqual(new Error(`Failed resolving the API to call\nReason: ${getApiErrorMessage}`))
+
+  // getApi failure (error string, coverage)
+  command.getApi = jest.fn(() => {
+    throw getApiErrorMessage
+  })
+  runResult = command.run()
+  await expect(runResult).rejects.toEqual(new Error(`Failed resolving the API to call\nReason: ${getApiErrorMessage}`))
 })

@@ -33,7 +33,6 @@ class ImsCommandCommand extends ImsBaseCommand {
   async call (ims, method, api, token, parameterMap) {
     this.debug('call(%s, %s, %s, %o)', method, api, token, parameterMap)
     return ims[method](api, token, parameterMap)
-    // return Promise.reject(new Error("This function cannot be called directly"));
   }
 
   async run () {

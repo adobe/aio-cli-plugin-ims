@@ -11,6 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const ImsCommandCommand = require('../../ims-command-command')
+const { URL } = require('url')
 
 class SessionCommand extends ImsCommandCommand {
   async _getSessionLink () {

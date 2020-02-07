@@ -18,13 +18,13 @@ class CtxCommand extends ImsBaseCommand {
     const { flags } = this.parse(CtxCommand)
 
     /**
-         * What do I want to do ?
-         * + list the context names
-         * + read the current context label
-         * + set the current context label
-         * + show context data (current or named)
-         * - set the current context data ???
-         */
+     * What do I want to do ?
+     * + list the context names
+     * + read the current context label
+     * + set the current context label
+     * + show context data (current or named)
+     * - set the current context data ???
+     */
 
     const { context } = require('@adobe/aio-lib-core-ims')
     if (flags.list) {

@@ -12,16 +12,17 @@ governing permissions and limitations under the License.
 const execa = require('execa')
 const chalk = require('chalk')
 const { stdout } = require('stdout-stderr')
+const fs = require('fs')
 
 stdout.print = true 
 
 test('plugin-ims help test', async () => {
 
-  const name = 'aio-cli-plugin-console'
+  const packagejson = JSON.parse(fs.readFileSync('package.json').toString())
+  const name = `${packagejson.name}`
   console.log(chalk.blue(`> e2e tests for ${chalk.bold(name)}`))
 
   console.log(chalk.dim(`    - plugin-ims  help ..`))
-  execa.sync('./bin/run', ['--help'], { stderr: 'inherit' })
-
+  expect(() => { execa.sync('./bin/run', ['--help'], { stderr: 'inherit' }) }).not.toThrow()
   console.log(chalk.green(`    - done for ${chalk.bold(name)}`))
 });

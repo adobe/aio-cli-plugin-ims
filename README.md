@@ -46,11 +46,11 @@ So the goal of this project along with the companion repositories is to provide 
 
 Without much further ado, here is the collection of IMS supporting plugins:
 
-* The [Adobe I/O Lib Core IMS Support Library](https://github.com/adobe/aio-lib-core-ims) is the reusable base library providing JavaScript level API to the IMS APIs as well as getting access to tokens. All the functionality of this library is available by simply requiring this library.
+* The [Adobe I/O Lib Core IMS Support Library](https://github.com/adobe/aio-lib-ims) is the reusable base library providing JavaScript level API to the IMS APIs as well as getting access to tokens. All the functionality of this library is available by simply requiring this library.
 * This [Adobe I/O CLI IMS Plugin](https://github.com/adobe/aio-cli-plugin-ims) is the main CLI plugin to the Adobe IO CLI. See #plugin for more details below.
 * Three extension to the _Adobe IO IMS Support Library_ supporting creation of IMS tokens for different use cases. They all come as node packages. They are used by the _Adobe IO IMS Support Library_ to implement the access token creation. The plugins are:
-    * The [Adobe I/O Lib Core IMS Library JWT Support](https://github.com/adobe/aio-lib-core-ims-jwt) supporting the generation and exchange for an access token of JWT Tokens.
-    * The [Adobe I/O Lib Core IMS Library OAuth2 Support](https://github.com/adobe/aio-lib-core-ims-oauth) supporting the creation of tokens using the normal browser-based SUSI flow. To that avail the SUSI flow part is implemented as an embedded [Electron app](https://electronjs.org) driving the browser based interaction and capturing the callback from IMS.
+    * The [Adobe I/O Lib Core IMS Library JWT Support](https://github.com/adobe/aio-lib-ims-jwt) supporting the generation and exchange for an access token of JWT Tokens.
+    * The [Adobe I/O Lib Core IMS Library OAuth2 Support](https://github.com/adobe/aio-lib-ims-oauth) supporting the creation of tokens using the normal browser-based SUSI flow. To that avail the SUSI flow part is implemented as an embedded [Electron app](https://electronjs.org) driving the browser based interaction and capturing the callback from IMS.
 
 # How it works
 
@@ -247,9 +247,9 @@ DESCRIPTION
 
   The currently supported IMS login plugins are:
 
-  * aio-lib-core-ims-jwt for JWT token based login supporting
+  * aio-lib-ims-jwt for JWT token based login supporting
      Adobe I/O Console service integrations.
-  * aio-lib-core-ims-oauth for browser based OAuth2 login. This
+  * aio-lib-ims-oauth for browser based OAuth2 login. This
      plugin will launch a Chromium browser to guide through the
      login process. The plugin itself will *never* see the user's
      password but only receive the authorization token after the

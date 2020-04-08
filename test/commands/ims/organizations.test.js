@@ -13,7 +13,7 @@ governing permissions and limitations under the License.
 const TheCommand = require('../../../src/commands/ims/organizations')
 const CommandCommand = require('../../../src/ims-command-command')
 
-jest.mock('@adobe/aio-lib-core-ims')
+jest.mock('@adobe/aio-lib-ims')
 
 afterEach(() => {
   jest.resetAllMocks()

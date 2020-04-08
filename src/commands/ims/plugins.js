@@ -16,15 +16,15 @@ const ImsBaseCommand = require('../../ims-base-command')
 class PluginsCommand extends ImsBaseCommand {
   async run () {
     const { argv } = this.parse(PluginsCommand)
-    const { context } = require('@adobe/aio-lib-core-ims')
+    const { context } = require('@adobe/aio-lib-ims')
 
     if (argv && argv.length > 0) {
       // TODO: check each plugin for whether it can be require-d
       // TODO: check each plugin for whether it implements the contract
       // TODO: have option to omit the check(s)
-      context.plugins = argv
+      await context.setPlugins(argv)
     } else {
-      this.printObject(context.plugins)
+      this.printObject(await context.getPlugins())
     }
 
     const debugCore = require('debug')

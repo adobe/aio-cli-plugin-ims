@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const TheCommand = require('../../../src/commands/ims/plugins')
 const BaseCommand = require('../../../src/ims-base-command')
-const { context } = require('@adobe/aio-lib-core-ims')
+const { context } = require('@adobe/aio-lib-ims')
 const config = require('@adobe/aio-lib-core-config')
 
 const myPlugins = ['foo']
@@ -58,6 +58,7 @@ test('run (get)', async () => {
 
   const runResult = command.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).resolves.not.toThrow()
   await expect(spy).toHaveBeenCalledWith(myPlugins)
 })
 
@@ -66,5 +67,5 @@ test('run (set)', async () => {
   const runResult = command.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).resolves.not.toThrow()
-  expect(context.plugins).toEqual(command.argv)
+  await expect(context.getPlugins()).resolves.toEqual(command.argv)
 })

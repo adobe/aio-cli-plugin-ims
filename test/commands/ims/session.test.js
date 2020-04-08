@@ -12,9 +12,9 @@ governing permissions and limitations under the License.
 
 const TheCommand = require('../../../src/commands/ims/session')
 const CommandCommand = require('../../../src/ims-command-command')
-const ims = require('@adobe/aio-lib-core-ims')
+const ims = require('@adobe/aio-lib-ims')
 
-jest.mock('@adobe/aio-lib-core-ims')
+jest.mock('@adobe/aio-lib-ims')
 
 afterEach(() => {
   jest.resetAllMocks()

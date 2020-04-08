@@ -26,16 +26,16 @@ class CtxCommand extends ImsBaseCommand {
      * - set the current context data ???
      */
 
-    const { context } = require('@adobe/aio-lib-core-ims')
+    const { context } = require('@adobe/aio-lib-ims')
     if (flags.list) {
-      this.printObject(context.keys())
+      this.printObject(await context.keys())
     } else if (flags.value) {
-      this.printObject(context.get(flags.ctx))
+      this.printObject(await context.get(flags.ctx))
     } else if (flags.set) {
-      context.setCurrent(flags.set, flags.local)
-      this.printObject(context.current)
+      await context.setCurrent(flags.set, flags.local)
+      this.printObject(await context.getCurrent())
     } else {
-      this.printObject(context.current)
+      this.printObject(await context.getCurrent())
     }
   }
 }

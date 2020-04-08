@@ -21,11 +21,13 @@ class ImsCommandCommand extends ImsBaseCommand {
   }
 
   /**
-     * Returns the HTTP method to be used to call the IMS
-     * API. This base implementation returns "get", extensions
-     * can overwrite this getter method to use a differen
-     * method such as "post".
-     */
+   * Returns the HTTP method to be used to call the IMS
+   * API. This base implementation returns "get", extensions
+   * can overwrite this getter method to use a differen
+   * method such as "post".
+   *
+   * @returns {string} the http method
+   */
   get method () {
     return 'get'
   }

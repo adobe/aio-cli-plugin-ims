@@ -7,7 +7,7 @@
   "dependencies": {
     "@adobe/aio-lib-core-ims": "^0.0.4",
     "@adobe/aio-lib-core-ims-jwt": "^0.0.3",
-    "@adobe/aio-lib-core-ims-oauth": "^0.0.3",
+    "@adobe/aio-lib-core-ims-oauth": "^1.0.1",
     "@oclif/command": "^1.5.13",
     "hjson": "^3.1.2",
     "js-yaml": "^3.13.0"
@@ -18,6 +18,7 @@
     "@oclif/plugin-help": "^2.1.6",
     "codecov": "^3.6.1",
     "eslint": "^6",
+    "eslint-plugin-jsdoc": "^22.0.0",
     "eslint-config-oclif": "^3.1.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.19.1",
@@ -52,10 +53,11 @@
   "repository": "https://github.com/adobe/aio-cli-plugin-ims",
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
-    "pretest": "eslint src test",
+    "pretest": "eslint src test e2e",
     "prepack": "oclif-dev manifest && oclif-dev readme",
     "test": "npm run unit-tests",
     "unit-tests": "jest --config test/jest.config.js ---ci -w=2",
-    "version": "oclif-dev readme && git add README.md"
+    "version": "oclif-dev readme && git add README.md",
+    "e2e": "jest --collectCoverage=false --testRegex './e2e/e2e.js'"
   }
 }

@@ -9,7 +9,7 @@ The IMS plugin to aio supports managing tokens for IMS such as login, logout, an
 [![Build Status](https://travis-ci.com/adobe/aio-cli-plugin-ims.svg?branch=master)](https://travis-ci.com/adobe/aio-cli-plugin-ims)
 [![License](https://img.shields.io/npm/l/@adobe/aio-cli-plugin-ims.svg)](https://github.com/adobe/aio-cli-plugin-ims/blob/master/package.json)
 [![Codecov Coverage](https://img.shields.io/codecov/c/github/adobe/aio-cli-plugin-ims/master.svg?style=flat-square)](https://codecov.io/gh/adobe/aio-cli-plugin-ims/)
-[![Greenkeeper badge](https://badges.greenkeeper.io/adobe/aio-cli-plugin-ims.svg)](https://greenkeeper.io/)
+
 
 <!-- toc -->
 * [Motivation](#motivation)

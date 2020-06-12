@@ -68,19 +68,13 @@ This _Adobe IO CLI IMS Plugin_ offers four commands:
 Oh, and yes, docs and tests are a bit lacking this time ... I want to just get this out ASAP for anyone to have a look.
 
 # Usage
-<!-- usage -->
 ```sh-session
-$ npm install -g @adobe/aio-cli-plugin-ims
-$ aio COMMAND
-running command...
-$ aio (-v|--version|version)
-@adobe/aio-cli-plugin-ims/1.0.2 darwin-x64 node-v8.16.2
-$ aio --help [COMMAND]
-USAGE
-  $ aio COMMAND
-...
+$ aio plugins:install -g @adobe/aio-cli-plugin-ims
+$ # OR
+$ aio discover -i
+$ aio ims --help
 ```
-<!-- usagestop -->
+
 # Commands
 <!-- commands -->
 * [`aio ims`](#aio-ims)

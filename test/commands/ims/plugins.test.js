@@ -17,22 +17,22 @@ const config = require('@adobe/aio-lib-core-config')
 
 const myPlugins = ['foo']
 const store = {
-  $ims: {
+  ims: {
     $plugins: myPlugins
   }
 }
 
-const IMS = '$ims.'
+const IMS = 'ims.'
 config.get.mockImplementation(key => {
   if (key.startsWith(IMS)) {
-    return store.$ims[key.substring(IMS.length)]
+    return store.ims[key.substring(IMS.length)]
   }
   return store[key]
 })
 
 config.set.mockImplementation((key, value) => {
   if (key.startsWith(IMS)) {
-    store.$ims[key.substring(IMS.length)] = value
+    store.ims[key.substring(IMS.length)] = value
   } else {
     store[key] = value
   }

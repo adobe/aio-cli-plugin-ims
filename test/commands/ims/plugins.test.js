@@ -18,7 +18,7 @@ const config = require('@adobe/aio-lib-core-config')
 const myPlugins = ['foo']
 const store = {
   ims: {
-    $plugins: myPlugins
+    plugins: myPlugins
   }
 }
 

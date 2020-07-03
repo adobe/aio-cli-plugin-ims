@@ -56,7 +56,7 @@ test('run - error', async () => {
   await expect(runResult).rejects.toEqual(new Error(`Cannot logout context '${context}': ${errorMessage}`))
 
   // coverage
-  ims.context.current = context
+  ims.context.getCurrent = () => context
   command.argv = []
   runResult = command.run()
   await expect(runResult).rejects.toEqual(new Error(`Cannot logout context '${context}': ${errorMessage}`))

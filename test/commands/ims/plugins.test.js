@@ -14,28 +14,31 @@ const TheCommand = require('../../../src/commands/ims/plugins')
 const BaseCommand = require('../../../src/ims-base-command')
 const { context } = require('@adobe/aio-lib-ims')
 const config = require('@adobe/aio-lib-core-config')
+const { PLUGINS, IMS, CONFIG } = require('@adobe/aio-lib-ims/src/context')
 
 const myPlugins = ['foo']
 const store = {
-  ims: {
-    plugins: myPlugins
+  [IMS]: {
+    [CONFIG]: {
+      [PLUGINS]: myPlugins
+    }
   }
 }
-
-const IMS = 'ims.'
 config.get.mockImplementation(key => {
-  if (key.startsWith(IMS)) {
-    return store.ims[key.substring(IMS.length)]
+  if (key.startsWith(`${IMS}.${CONFIG}.`)) {
+    return store[IMS][CONFIG][key.substring(`${IMS}.${CONFIG}.`.length)]
+  }
+  if (key === `${IMS}.${CONFIG}`) {
+    return store[IMS][CONFIG]
   }
   return store[key]
 })
 
 config.set.mockImplementation((key, value) => {
-  if (key.startsWith(IMS)) {
-    store.ims[key.substring(IMS.length)] = value
-  } else {
-    store[key] = value
+  if (key === `${IMS}.${CONFIG}.${PLUGINS}`) {
+    store[IMS][CONFIG][PLUGINS] = value
   }
+  store[key] = value
 })
 
 let command

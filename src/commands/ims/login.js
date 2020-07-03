@@ -40,7 +40,7 @@ class LoginCommand extends ImsBaseCommand {
     } catch (err) {
       const stackTrace = err.stack ? '\n' + err.stack : ''
       this.debug(`Login Failure: ${err.message || err}${stackTrace}`)
-      this.error(`Cannot get token for context '${flags.ctx || context.current}': ${err.message || err}`, { exit: 1 })
+      this.error(`Cannot get token for context '${flags.ctx || context.getCurrent()}': ${err.message || err}`, { exit: 1 })
     }
   }
 }

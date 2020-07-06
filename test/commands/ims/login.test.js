@@ -85,7 +85,7 @@ test('run - error', async () => {
   await expect(runResult).rejects.toEqual(new Error(`Cannot get token for context '${context}': ${errorMessage}`))
 
   // context from config
-  ims.context.current = context
+  ims.context.getCurrent = () => context
   command.argv = []
   runResult = command.run()
   await expect(runResult).rejects.toEqual(new Error(`Cannot get token for context '${context}': ${errorMessage}`))

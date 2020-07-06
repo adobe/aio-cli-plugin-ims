@@ -52,8 +52,10 @@ The following options exist for this command:
 Currently it is not possible to update the IMS context configuration
 using this command. Use the "aio config" commands for this.
 
-Please note, that the IMS context labels starting with "$" are reserved
-and cannot be used as an IMS context name.
+Please note, that the following IMS context label names is reserved: \`cli\`
+and should not be used as an IMS context name.
+
+Also note that the current context can only be set locally.
 `
 
 CtxCommand.flags = {

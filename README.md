@@ -104,8 +104,8 @@ DESCRIPTION
   multiple. Each set of configuration properties, called an IMS context,
   can be individually addressed by a label.
 
-  Configuration for the IMS commands is stored in the "$ims"
-  configuration property. The special property "$current" contains the
+  Configuration for the IMS commands is stored in the "ims"
+  configuration property. The special property "ims.config.current" contains the
   label of the current configuration which can be set using the
   "aio ims ctx -s <label>" command.
 
@@ -123,21 +123,25 @@ DESCRIPTION
 
 EXAMPLE
   {
-       $ims: {
-         postman: {
-           env: "stage",
-           callback_url: "https://callback.example.com",
-           client_id: "example.com-client-id",
-           client_secret: "XXXXXXXX",
-           scope: "openid AdobeID additional_info.projectedProductContext read_organizations",
-           state: ""
+       ims: {
+         contexts: {
+           postman: {
+             env: "stage",
+             callback_url: "https://callback.example.com",
+             client_id: "example.com-client-id",
+             client_secret: "XXXXXXXX",
+             scope: "openid AdobeID additional_info.projectedProductContext read_organizations",
+             state: ""
+           }
          },
-         $current: "postman"
+         config: {
+           current: "postman"
+         }
        }
      }
 ```
 
-_See code: [src/commands/ims/index.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.2/src/commands/ims/index.js)_
+_See code: [src/commands/ims/index.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v2.0.0/src/commands/ims/index.js)_
 
 ## `aio ims:ctx`
 
@@ -168,11 +172,13 @@ DESCRIPTION
   Currently it is not possible to update the IMS context configuration
   using this command. Use the "aio config" commands for this.
 
-  Please note, that the IMS context labels starting with "$" are reserved
-  and cannot be used as an IMS context name.
+  Please note, that the following IMS context label names is reserved: `cli`
+  and should not be used as an IMS context name.
+
+  Also note that the current context can only be set locally.
 ```
 
-_See code: [src/commands/ims/ctx.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.2/src/commands/ims/ctx.js)_
+_See code: [src/commands/ims/ctx.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v2.0.0/src/commands/ims/ctx.js)_
 
 ## `aio ims:get API`
 
@@ -202,7 +208,7 @@ DESCRIPTION
   fails, the error message is returned as an error.
 ```
 
-_See code: [src/commands/ims/get.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.2/src/commands/ims/get.js)_
+_See code: [src/commands/ims/get.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v2.0.0/src/commands/ims/get.js)_
 
 ## `aio ims:login`
 
@@ -250,7 +256,7 @@ DESCRIPTION
      user authenticated with IMS.
 ```
 
-_See code: [src/commands/ims/login.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.2/src/commands/ims/login.js)_
+_See code: [src/commands/ims/login.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v2.0.0/src/commands/ims/login.js)_
 
 ## `aio ims:logout`
 
@@ -284,7 +290,7 @@ DESCRIPTION
   command will just do nothing.
 ```
 
-_See code: [src/commands/ims/logout.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.2/src/commands/ims/logout.js)_
+_See code: [src/commands/ims/logout.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v2.0.0/src/commands/ims/logout.js)_
 
 ## `aio ims:organizations`
 
@@ -311,7 +317,7 @@ DESCRIPTION
   fails, the error message is returned as an error.
 ```
 
-_See code: [src/commands/ims/organizations.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.2/src/commands/ims/organizations.js)_
+_See code: [src/commands/ims/organizations.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v2.0.0/src/commands/ims/organizations.js)_
 
 ## `aio ims:plugins [PLUGIN]`
 
@@ -342,7 +348,7 @@ DESCRIPTION
   checked for existence or implementation of the correct contract.
 ```
 
-_See code: [src/commands/ims/plugins.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.2/src/commands/ims/plugins.js)_
+_See code: [src/commands/ims/plugins.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v2.0.0/src/commands/ims/plugins.js)_
 
 ## `aio ims:post API`
 
@@ -372,7 +378,7 @@ DESCRIPTION
   fails, the error message is returned as an error.
 ```
 
-_See code: [src/commands/ims/post.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.2/src/commands/ims/post.js)_
+_See code: [src/commands/ims/post.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v2.0.0/src/commands/ims/post.js)_
 
 ## `aio ims:profile`
 
@@ -399,7 +405,7 @@ DESCRIPTION
   fails, the error message is returned as an error.
 ```
 
-_See code: [src/commands/ims/profile.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.2/src/commands/ims/profile.js)_
+_See code: [src/commands/ims/profile.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v2.0.0/src/commands/ims/profile.js)_
 
 ## `aio ims:session`
 
@@ -426,7 +432,7 @@ DESCRIPTION
   fails, the error message is returned as an error.
 ```
 
-_See code: [src/commands/ims/session.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v1.0.2/src/commands/ims/session.js)_
+_See code: [src/commands/ims/session.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v2.0.0/src/commands/ims/session.js)_
 <!-- commandsstop -->
 
 

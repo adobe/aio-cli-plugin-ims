@@ -104,8 +104,8 @@ DESCRIPTION
   multiple. Each set of configuration properties, called an IMS context,
   can be individually addressed by a label.
 
-  Configuration for the IMS commands is stored in the "ims"
-  configuration property. The special property "current" contains the
+  Configuration for the IMS commands is stored in the "$ims"
+  configuration property. The special property "$current" contains the
   label of the current configuration which can be set using the
   "aio ims ctx -s <label>" command.
 
@@ -123,7 +123,7 @@ DESCRIPTION
 
 EXAMPLE
   {
-       ims: {
+       $ims: {
          postman: {
            env: "stage",
            callback_url: "https://callback.example.com",
@@ -132,7 +132,7 @@ EXAMPLE
            scope: "openid AdobeID additional_info.projectedProductContext read_organizations",
            state: ""
          },
-         current: "postman"
+         $current: "postman"
        }
      }
 ```

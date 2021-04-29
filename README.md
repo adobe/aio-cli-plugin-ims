@@ -1,6 +1,8 @@
 aio-cli-plugin-ims
 ==================
 
+# DEPRECATED IN FAVOR OF THE [AUTH PLUGIN](https://github.com/adobe/aio-cli-plugin-auth)
+
 The IMS plugin to aio supports managing tokens for IMS such as login, logout, and retrieving and using tokens.
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)

@@ -14,6 +14,7 @@ The IMS plugin to aio supports managing tokens for IMS such as login, logout, an
 
 
 <!-- toc -->
+* [DEPRECATED IN FAVOR OF THE [AUTH PLUGIN](https://github.com/adobe/aio-cli-plugin-auth)](#deprecated-in-favor-of-the-auth-pluginhttpsgithubcomadobeaio-cli-plugin-auth)
 * [Motivation](#motivation)
 * [Goals](#goals)
 * [The JavaScript Packages](#the-javascript-packages)
@@ -85,7 +86,6 @@ $ aio ims --help
 * [`aio ims:login`](#aio-imslogin)
 * [`aio ims:logout`](#aio-imslogout)
 * [`aio ims:organizations`](#aio-imsorganizations)
-* [`aio ims:plugins [PLUGIN]`](#aio-imsplugins-plugin)
 * [`aio ims:post API`](#aio-imspost-api)
 * [`aio ims:profile`](#aio-imsprofile)
 * [`aio ims:session`](#aio-imssession)
@@ -125,22 +125,22 @@ DESCRIPTION
 
 EXAMPLE
   {
-       ims: {
-         contexts: {
-           postman: {
-             env: "stage",
-             callback_url: "https://callback.example.com",
-             client_id: "example.com-client-id",
-             client_secret: "XXXXXXXX",
-             scope: "openid AdobeID additional_info.projectedProductContext read_organizations",
-             state: ""
-           }
-         },
-         config: {
-           current: "postman"
-         }
-       }
-     }
+      ims: {
+        contexts: {
+          postman: {
+            env: "stage",
+            callback_url: "https://callback.example.com",
+            client_id: "example.com-client-id",
+            client_secret: "XXXXXXXX",
+            scope: "openid AdobeID additional_info.projectedProductContext read_organizations",
+            state: ""
+          }
+        },
+        config: {
+          current: "postman"
+        }
+      }
+    }
 ```
 
 _See code: [src/commands/ims/index.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v2.0.0/src/commands/ims/index.js)_
@@ -250,12 +250,12 @@ DESCRIPTION
   The currently supported IMS login plugins are:
 
   * aio-lib-ims-jwt for JWT token based login supporting
-     Adobe I/O Console service integrations.
+    Adobe I/O Console service integrations.
   * aio-lib-ims-oauth for browser based OAuth2 login. This
-     plugin will launch a Chromium browser to guide through the
-     login process. The plugin itself will *never* see the user's
-     password but only receive the authorization token after the
-     user authenticated with IMS.
+    plugin will launch a Chromium browser to guide through the
+    login process. The plugin itself will *never* see the user's
+    password but only receive the authorization token after the
+    user authenticated with IMS.
 ```
 
 _See code: [src/commands/ims/login.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v2.0.0/src/commands/ims/login.js)_
@@ -320,37 +320,6 @@ DESCRIPTION
 ```
 
 _See code: [src/commands/ims/organizations.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v2.0.0/src/commands/ims/organizations.js)_
-
-## `aio ims:plugins [PLUGIN]`
-
-Manage Create Token Plugins.
-
-```
-USAGE
-  $ aio ims:plugins [PLUGIN]
-
-ARGUMENTS
-  PLUGIN  List of plugins to configure. If not provided, prints the current list instead
-
-OPTIONS
-  -c, --ctx=ctx  Name of the IMS context to use. Default is the current IMS context
-  -f, --force    Force configuring the list of plugins without checking for existence or contract
-  -g, --global   global config
-  -l, --local    local config
-  -v, --verbose  Verbose output
-  --debug=debug  Debug level output
-
-DESCRIPTION
-  The following options exist for this command:
-
-  * Print the current list of token creation plugins
-  * Update the list of token creation plugins
-
-  Note: If provoding a list of plugis to configure, they are not currently
-  checked for existence or implementation of the correct contract.
-```
-
-_See code: [src/commands/ims/plugins.js](https://github.com/adobe/aio-cli-plugin-ims/blob/v2.0.0/src/commands/ims/plugins.js)_
 
 ## `aio ims:post API`
 

@@ -15,7 +15,7 @@
     "js-yaml": "^3.13.0"
   },
   "devDependencies": {
-    "@adobe/aio-lib-core-config": "^2.0.0",
+    "@adobe/aio-lib-core-config": "^3.1.0",
     "@adobe/eslint-config-aio-lib-config": "^2.0.0",
     "@oclif/dev-cli": "^1.22.0",
     "chalk": "^4.0.0",

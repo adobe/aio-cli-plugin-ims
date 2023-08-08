@@ -15,26 +15,26 @@
     "js-yaml": "^3.13.0"
   },
   "devDependencies": {
-    "@adobe/aio-lib-core-config": "^2.0.0",
-    "@adobe/eslint-config-aio-lib-config": "^2.0.0",
+    "@adobe/aio-lib-core-config": "^3.1.0",
+    "@adobe/eslint-config-aio-lib-config": "^2.0.1",
     "@oclif/dev-cli": "^1.22.0",
     "chalk": "^4.0.0",
-    "eslint": "^8.18.0",
+    "eslint": "^8.46.0",
     "eslint-config-oclif": "^3.1.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jest": "^23.20.0",
-    "eslint-plugin-jsdoc": "^37.9.7",
-    "eslint-plugin-n": "^15.2.3",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.28.0",
+    "eslint-plugin-jest": "^27.2.3",
+    "eslint-plugin-jsdoc": "^42.0.0",
+    "eslint-plugin-n": "^16.0.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-standard": "^5.0.0",
     "execa": "^4.0.0",
     "globby": "^10.0.1",
-    "jest": "^24",
-    "jest-junit": "^9.0.0",
+    "jest": "^29",
+    "jest-junit": "^16.0.0",
     "stdout-stderr": "^0.1.9",
-    "typescript": "^4.7.4"
+    "typescript": "^4.9.5"
   },
   "engines": {
     "node": "^14.18 || ^16.13 || >=18"
@@ -62,7 +62,7 @@
     "pretest": "npm run lint",
     "prepack": "oclif-dev manifest && oclif-dev readme",
     "test": "npm run unit-tests",
-    "unit-tests": "jest --config test/jest.config.js ---ci -w=2",
+    "unit-tests": "jest --config test/jest.config.js --ci",
     "version": "oclif-dev readme && git add README.md",
     "e2e": "jest --collectCoverage=false --testRegex './e2e/e2e.js'"
   }
